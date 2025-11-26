@@ -1,66 +1,97 @@
 @import "tailwindcss";
+/* ============================
+   Registration Page Styling
+   ============================ */
+
 #reg-wrapper {
+  width: 100%;
   min-height: 100vh;
+  background: linear-gradient(135deg, #4e54c8, #8f94fb);
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #ff9a9e, #00b7ff);
-  animation: fadebg 6s infinite alternate;
-  padding: 20px;
-}
-
-@keyframes fadebg {
-  0% { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(40deg); }
+  padding: 40px 10px;
 }
 
 #reg-box {
   width: 420px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
+  background: #ffffff;
+  border-radius: 20px;
   padding: 35px;
-  border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  animation: popup 0.6s ease;
-}
-
-@keyframes popup {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.7s ease;
 }
 
 .reg-title {
   text-align: center;
-  margin-bottom: 20px;
-  font-weight: bold;
-  color: white;
+  margin-bottom: 25px;
+  font-weight: 700;
+  color: #4e54c8;
 }
 
-.reg-field input {
+.reg-inputs .reg-field input {
+  padding: 12px;
   border-radius: 10px !important;
-  transition: 0.2s ease;
+  border: 2px solid #ddd;
+  font-size: 15px;
+  transition: 0.3s;
 }
 
-.reg-field input:focus {
-  transform: scale(1.03);
-  box-shadow: 0 0 10px #fff;
+.reg-inputs .reg-field input:focus {
+  border-color: #4e54c8;
+  box-shadow: 0 0 10px rgba(78, 84, 200, 0.3);
 }
 
 .reg-btn {
-  background: #ff4b2b !important;
-  border-radius: 10px;
+  background: #4e54c8 !important;
+  padding: 12px;
+  border-radius: 15px;
+  letter-spacing: 1px;
+  font-weight: 600;
   transition: 0.3s ease;
 }
 
 .reg-btn:hover {
-  transform: scale(1.05);
-  background: #ff3a1a !important;
+  background: #6a6ffb !important;
+  transform: translateY(-2px);
+}
+
+.social-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .social-btn {
-  transition: 0.3s ease;
+  background-color: #4e54c8 !important;
+  color: white !important;
+  transition: 0.25s ease;
 }
 
 .social-btn:hover {
-  transform: translateY(-5px) scale(1.1);
+  background-color: #6a6ffb !important;
+  transform: scale(1.1);
+}
+
+/* forgot link */
+#reg-box a {
+  color: #4e54c8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+#reg-box a:hover {
+  text-decoration: underline;
+}
+
+/* fade effect */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

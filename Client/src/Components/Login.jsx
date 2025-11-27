@@ -9,10 +9,6 @@ import {
   MDBIcon,
 } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
-
-
-
-
 const Login = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +18,7 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:5000/api/login", {
+    fetch("http://localhost:3000/api/v1/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, password }),
@@ -31,10 +27,12 @@ const Login = () => {
       .then((data) => {
         if (data.success) {
         
-          setLoginName(data.apiData);
+         
 
-          if (data.apiData === "Priyanshu") navigate("/userproduct");
-          else navigate("/");
+          if (data.apiData === "Priyanshu"){navigate("/userproduct")}
+            else{navigate("/userproduct")};
+          
+          
 
           toast.success("Login Successfully");
         } else {

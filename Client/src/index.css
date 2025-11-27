@@ -1,4 +1,36 @@
 @import "tailwindcss";
+
+#navbar {
+    background: linear-gradient(to right, #4e54c8, #8f94fb);
+    height: 70px;
+
+}
+#foodtitle{
+    text-align: center;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    color: black;
+    font-size: 40px;
+}
+
+#logo {
+    color: rgb(255, 255, 255);
+    font-weight: bolder;
+    font-size: 25px;
+
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#navbar ul li a {
+    color: rgb(240, 239, 239);
+    font-weight: bolder;
+
+
+}
+
+#navbar ul li a:hover {
+    color: goldenrod;
+}
 /* ============================
    Registration Page Styling
    ============================ */

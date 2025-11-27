@@ -16,15 +16,15 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleregister=(e)=> {
-    e.preventDefault();
+const handleRegister = async(e) => {
+  e.preventDefault();
 
-    fetch("http://localhost:5000/api/REGISTER", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-    })
-      .then((res) => res.json())
+ await fetch("http://localhost:3000/api/v1/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, email, password }),
+  })
+    .then((res) => res.json())
       .then((data) => {
         if (data.status === 201) {
           toast.success(data.message);
@@ -33,12 +33,12 @@ const Register = () => {
           toast.error(data.message);
         }
       });
-
-  }
+    
+};
 
   return (
     <div id="reg-wrapper">
-      <form id="reg-box" onSubmit={handleregister}>
+      <form id="reg-box" onSubmit={handleRegister}>
         <h2 className="reg-title">✨ Registration Form</h2>
 
         <section className="reg-inputs">
@@ -108,3 +108,5 @@ const Register = () => {
 };
 
 export default Register;
+
+

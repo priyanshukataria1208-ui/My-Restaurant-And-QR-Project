@@ -11,7 +11,7 @@ const Navbar = () => {
           <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
               <NavLink className="navbar-brand" to="/" id="logo">
-              🍔Zomato
+              🍔Restaurant
               </NavLink>
 
               <button

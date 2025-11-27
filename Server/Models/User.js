@@ -3,16 +3,38 @@ const UserSchema=mongoose.Schema({
     Uname:{type:String},
     Uemail:{type:String},
     Upassword:{type:String},
-    UrefreshToken:{type:String},
-    UisActive:{type:Boolean},
-    Urole:{type:String   
-    },
-    Utotalpoint:{type:Number},
-    UtotalOrder:{type:Number},
-    UloyalityPoints:{type:Number},
-    UrefreshTokenExpireyTime:{type:Date},
-    Ulastlogin:{type:Date,
-        
-    }
+
+ role : {
+    type : String ,
+    enum : ['customer' , 'admin'],
+    default : 'customer'
+  },
+  isActive: {
+    type: Boolean,
+  },
+  totalSpend : {
+    type : Number
+  },
+  totalOrders : {
+    type : Number
+  },
+  loyaltyPoints : {
+    type : Number 
+  },
+  refreshToken: {
+    type: String,
+  },
+  refreshTokenExpiresTime : {
+    type : Date
+  },
+  lastlogin : {
+    type : Date,
+    default : Date.now()
+  },
+accountTypes : {
+    type : String ,
+    enum : ['REGISTERED' , 'GUEST'],
+    default : "REGISTERED"
+  },
 })
 module.exports=mongoose.model("User",UserSchema)

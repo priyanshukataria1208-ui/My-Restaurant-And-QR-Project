@@ -1,11 +1,12 @@
+const mongoose = require("mongoose");
 
-const dbconnect= async()=>{
-    try{
-        
-    const connection=await mongoose.connect("mongodb+srv://priyanshukataria1208_db_user:aM050hOAod8DpYeE@cluster0.l55hips.mongodb.net/RestaurantandQR?appName=Cluster0")
-    console.log("db connected")
-    }catch(error){
-        console.error("server err")
-    }
-}
-module.exports=dbconnect
+const dbconnect = async () => {
+  try {
+    await mongoose.connect("mongodb+srv://priyanshukataria1208_db_user:aM050hOAod8DpYeE@cluster0.l55hips.mongodb.net/Restaurant?appName=Cluster0");
+    console.log("DB Connected ✔️");
+  } catch (error) {
+    console.error("MongoDB Connection Error:", error.message);
+  }
+};
+
+module.exports = dbconnect;

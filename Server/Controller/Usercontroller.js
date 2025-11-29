@@ -35,56 +35,69 @@ exports.Register = async (req, res) => {
 
 
 exports.Login = async (req, res) => {
-  try {
-    const { name, password } = req.body;
+ try {
+  const { name, password } = req.body;
 
-    if (!name || !password) {
-      return res.status(400).json({
-        success: false,
-        message: "Username and Password are required"
-      });
-    }
-
-    const record = await User.findOne({ Uname: name });
-
-    if (!record) {
-      return res.status(401).json({
-        success: false,
-        message: "Username not found, please register first"
-      });
-    }
-
-    const isPasswordmatch = await bcrypt.compare(password, record.Upassword);
-
-    if (!isPasswordmatch) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid Password"
-      });
-    }
-    const accessToken = genrateAccessToken({
-      name: record.name,
-      email: record.email,
-      role: record.role,
-    });er
-    const refreshToken = genraterefreshToken({
-      name: record.name,
-      email: record.email,
-      role: record.role,
-    });
-
-    return res.status(200).json({
-      success: true,
-      apiData: record.Uname,
-      message: `${record.Uname} Successfully Logged In`
-    });
-
-  } catch (error) {
-    return res.status(500).json({
+  if (!name || !password) {
+    return res.status(400).json({
       success: false,
-      message: "Server error",
-      error: error.message
+      message: "Username and Password are required"
     });
   }
-  
+
+  // USER FIND BY Uname
+  const record = await User.findOne({ Uname: name });
+
+  if (!record) {
+    return res.status(401).json({
+      success: false,
+      message: "Username not found, please register first"
+    });
+  }
+
+  // PASSWORD CHECK
+  const isPasswordmatch = await bcrypt.compare(password, record.Upassword);
+
+  if (!isPasswordmatch) {
+    return res.status(401).json({
+      success: false,
+      message: "Invalid Password"
+    });
+  }
+
+  // ACCESS TOKEN
+  const accessToken = genrateAccessToken({
+    name: record.Uname,
+    email: record.Uemail,
+    role: record.role
+  });
+
+  // REFRESH TOKEN
+  const refreshToken = genraterefreshToken({
+    name: record.Uname,
+    email: record.Uemail,
+    role: record.role
+  });
+
+  // SAVE TOKENS
+  record.refreshToken = refreshToken;
+  record.refreshTokenExpiresTime = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  record.lastlogin = new Date();
+
+  await record.save();
+
+  return res.status(200).json({
+    success: true,
+    apiData: record.Uname,
+    message: `${record.Uname} Successfully Logged In`
+  });
+
+} catch (error) {
+  return res.status(500).json({
+    success: false,
+    message: "Server error",
+    error: error.message
+  });
+}
+
 };

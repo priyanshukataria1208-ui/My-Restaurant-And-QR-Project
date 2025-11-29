@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import {
   MDBInput,
   MDBCol,
@@ -8,37 +9,48 @@ import {
   MDBBtn,
   MDBIcon,
 } from "mdb-react-ui-kit";
-import { useNavigate } from "react-router-dom";
-const Login = () => {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  
 
-  const handleLogin = (e) => {
+const Login = () => {
+  const navigate = useNavigate();
+
+  const [formdata, setFormData] = useState({
+    name: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:3000/api/v1/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, password }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-        
-         
-
-          if (data.apiData === "Priyanshu"){navigate("/userproduct")}
-            else{navigate("/userproduct")};
-          
-          
-
-          toast.success("Login Successfully");
-        } else {
-          toast.error(data.message);
-        }
+    try {
+      const res = await fetch("http://localhost:3000/api/v1/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          Uname: formdata.name, // 🔥 Backend ke according
+          password: formdata.password,
+        }),
       });
+
+      const data = await res.json();
+
+      if (data.success) {
+        toast.success("Login Successful");
+        navigate("/userproduct");
+      } else {
+        toast.error(data.message || "Invalid Credentials");
+      }
+    } catch (err) {
+      toast.error("Server Error");
+      console.log(err);
+    }
   };
 
   return (
@@ -47,20 +59,25 @@ const Login = () => {
         <h2 className="reg-title">🔑 Login Form</h2>
 
         <section className="reg-inputs">
+          {/* Username */}
           <MDBInput
             className="mb-3 reg-field"
             type="text"
             label="Username"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            name="name"              // 🔥 REQUIRED
+            value={formdata.name}
+            onChange={handleChange}
             required
           />
+
+          {/* Password */}
           <MDBInput
             className="mb-3 reg-field"
             type="password"
             label="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"         // 🔥 REQUIRED
+            value={formdata.password}
+            onChange={handleChange}
             required
           />
         </section>
@@ -85,36 +102,16 @@ const Login = () => {
           <p>Or sign in with:</p>
 
           <div className="social-wrap">
-            <MDBBtn
-              floating
-              color="secondary"
-              className="mx-1 social-btn"
-              onClick={() => window.open("https://www.facebook.com")}
-            >
+            <MDBBtn floating color="secondary" className="mx-1">
               <MDBIcon fab icon="facebook-f" />
             </MDBBtn>
-            <MDBBtn
-              floating
-              color="secondary"
-              className="mx-1 social-btn"
-              onClick={() => window.open("https://www.google.com")}
-            >
+            <MDBBtn floating color="secondary" className="mx-1">
               <MDBIcon fab icon="google" />
             </MDBBtn>
-            <MDBBtn
-              floating
-              color="secondary"
-              className="mx-1 social-btn"
-              onClick={() => window.open("https://twitter.com")}
-            >
+            <MDBBtn floating color="secondary" className="mx-1">
               <MDBIcon fab icon="twitter" />
             </MDBBtn>
-            <MDBBtn
-              floating
-              color="secondary"
-              className="mx-1 social-btn"
-              onClick={() => window.open("https://github.com")}
-            >
+            <MDBBtn floating color="secondary" className="mx-1">
               <MDBIcon fab icon="github" />
             </MDBBtn>
           </div>

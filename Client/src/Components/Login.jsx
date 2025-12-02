@@ -26,32 +26,39 @@ const Login = () => {
     }));
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+ const handleLogin = async (e) => {
+  e.preventDefault();
 
-    try {
-      const res = await fetch("http://localhost:3000/api/v1/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formdata.name, // 🔥 Backend ke according
-          password: formdata.password,
-        }),
-      });
+  try {
+    const res = await fetch("http://localhost:3000/api/v1/login", {
+      
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formdata.name,
+        password: formdata.password,
+      }),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (data.success) {
-        toast.success("Login Successful");
-        navigate("/");
-      } else {
-        toast.error(data.message || "Invalid Credentials");
-      }
-    } catch (err) {
-      toast.error("Server Error");
-      console.log(err);
+    if (data.success) {
+
+      // 🔥 MOST IMPORTANT LINE
+      localStorage.setItem("accessToken", data.token);
+
+      toast.success("Login Successful");
+      navigate("/");
+    } else {
+      toast.error(data.message || "Invalid Credentials");
     }
-  };
+  } catch (err) {
+    toast.error("Server Error");
+    console.log(err);
+  }
+};
+
+
 
   return (
     <div id="reg-wrapper">
@@ -97,7 +104,7 @@ const Login = () => {
 
         <div className="text-center mt-3">
           <p>
-            Don’t have an account? <a href="/reg">Register</a>
+            Don’t have an account? <a href="/Reg">Register</a>
           </p>
           <p>Or sign in with:</p>
 

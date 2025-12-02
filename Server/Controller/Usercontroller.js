@@ -1,6 +1,7 @@
 const User = require("../Models/User");
 const bcrypt = require("bcrypt");
 const { generateAccessToken, generateRefreshToken } = require("../utlis/jwt");
+const jwt =require("jsonwebtoken")
 
 
 exports.Register = async (req, res) => {
@@ -46,66 +47,51 @@ exports.Register = async (req, res) => {
 
 
 exports.Login = async (req, res) => {
-  try {
-    const { name, password,phone } = req.body;
-     console.log("Login Request:", name, password); // ✅
+    try {
+        const { name, password } = req.body;
 
-    if (!name || !password) {
-      return res.status(400).json({
-        success: false,
-        message: "Username and Password are required"
-      });
+        const user = await User.findOne({ name });
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({
+                success: false,
+                message: "Incorrect Password"
+            });
+        }
+
+        // Create Access Token
+        const accessToken = jwt.sign(
+            { name: user.name, email: user.email, role: user.role },
+            "6971cd8ae32d2e2fd4b9f4b03a19c2c937e837f900402aa733279e14",
+            { expiresIn: "1d" }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Login Successful",
+            token: accessToken,
+            user: {
+                name: user.name,
+                email: user.email,
+                role: user.role,
+            }
+        });
+
+    } catch (error) {
+        console.log("LOGIN ERROR:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Server Error"
+        });
     }
 
-    const record = await User.findOne({ name });
-      console.log("Found Record:", record); // ✅
-    if (!record) {
-      return res.status(401).json({
-        success: false,
-        message: "User not found, please register first"
-      });
-    }
 
-    const isPasswordMatch = await bcrypt.compare(password, record.password);
-    if (!isPasswordMatch) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid Password"
-      });
-    }
-
-    const accessToken = generateAccessToken({
-      name: record.name,
-      email: record.email,
-      role: record.role
-    });
-
-    const refreshToken = generateRefreshToken({
-      name: record.name,
-      email: record.email,
-      role: record.role
-    });
-
-    record.refreshToken = refreshToken;
-      record.refreshTokenExpiresTime = new Date(
-      Date.now() + 7 * 24 * 60 * 60 * 1000
-    );
-    record.lastlogin = new Date();
-    await record.save();
-
-    return res.status(200).json({
-      success: true,
-      apiData: record.name,
-      accessToken,
-      refreshToken,
-      message: `${record.name} Successfully Logged In`
-    });
-
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Server error",
-      error: error.message
-    });
-  }
 };

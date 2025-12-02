@@ -234,3 +234,172 @@
 .social-btn:hover {
   transform: translateY(-5px) scale(1.15);
 }
+/*  */
+/* Background with vibrant gradients */
+.super-bg {
+  background: radial-gradient(circle at 20% 20%, #ff007f, #4b0082, #000);
+  animation: bgShift 12s infinite alternate ease-in-out;
+}
+@keyframes bgShift {
+  0% { background-position: 0% 30%; }
+  100% { background-position: 100% 70%; }
+}
+
+/* Smooth Fade Up Entrance */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeUp {
+  animation: fadeUp 1s ease-out;
+}
+
+/* Scale + Fade for logo */
+@keyframes fadeScale {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-fadeScale {
+  animation: fadeScale 1s ease-out;
+}
+
+/* Slide Up for card */
+@keyframes slideUp {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-slideUp {
+  animation: slideUp 1.2s ease-in-out;
+}
+
+/* Floating Color Particles */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0.4;
+  animation: float 8s infinite ease-in-out alternate;
+}
+.p1 { width: 220px; height: 220px; background: #ff00ff; top: -40px; left: -20px; }
+.p2 { width: 150px; height: 150px; background: #00eaff; top: 60%; left: -30px; }
+.p3 { width: 180px; height: 180px; background: #ff9900; bottom: -40px; right: 0px; }
+.p4 { width: 150px; height: 150px; background: #00ff8f; top: 20%; right: 10px; }
+
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, -20px) scale(1.2); }
+}
+
+/* Logo Box */
+.logo-box {
+  width: 120px;
+  height: 120px;
+  border-radius: 30px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: glow 3s infinite alternate;
+}
+@keyframes glow {
+  0% { box-shadow: 0 0 15px #ff00ff55; }
+  100% { box-shadow: 0 0 30px #00eaff88; }
+}
+
+/* Title Glow */
+.title-glow {
+  font-size: 3rem;
+  color: white;
+  font-weight: 800;
+  text-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+}
+.subtitle {
+  color: #d1d5db;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.desc {
+  color: #e5e7eb;
+  max-width: 260px;
+  margin: 12px auto;
+}
+
+/* Buttons */
+.btn-colorful {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(45deg, #ff00ff, #ff8c00);
+  border-radius: 14px;
+  font-weight: 700;
+  text-align: center;
+  color: white;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  transition: .3s;
+}
+.btn-colorful:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px #ff00ff;
+}
+
+.btn-outline {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #ffffff44;
+  border-radius: 14px;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  transition: .3s;
+}
+.btn-outline:hover {
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 0 20px #00eaff;
+}
+
+.btn-glassy {
+  width: 100%;
+  padding: 14px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid #ffffff44;
+  border-radius: 14px;
+  color: #e5e7eb;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  backdrop-filter: blur(14px);
+  transition: .3s;
+}
+.btn-glassy:hover {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  box-shadow: 0 0 25px #00ffea;
+}
+
+/* Benefit Card */
+.glass-card {
+  background: rgba(255,255,255,0.1);
+  border-radius: 18px;
+  padding: 20px;
+  border: 1px solid #ffffff33;
+  backdrop-filter: blur(12px);
+}
+.benefit-title {
+  color: white;
+  font-weight: 700;
+}
+.benefit-list li {
+  color: #f1f1f1;
+  margin-bottom: 6px;
+}
+.benefit-list li::before {
+  content: "✨";
+  margin-right: 6px;
+  color: #ffb6ff;
+}

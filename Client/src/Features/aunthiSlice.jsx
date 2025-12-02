@@ -32,6 +32,7 @@ const authiSlice = createSlice({
     error: null,
     name: null,
     email: null,
+    role: null,
     accessToken: null,
     refershToken: null,
   },
@@ -51,10 +52,10 @@ const authiSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         console.log(action.payload);
         state.loading = false;
-        state.name = action.payload.data.name;      // MongoDB se
-        state.email = action.payload.data.email;    // MongoDB se
+        state.name = action.payload.name;      // MongoDB se
+        state.email = action.payload.email;    // MongoDB se
         state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
+        state.refershToken = action.payload.refershToken;
 
 
         localStorage.setItem("accessToken", action.payload.accessToken);

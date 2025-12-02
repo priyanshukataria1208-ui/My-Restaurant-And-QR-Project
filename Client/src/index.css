@@ -127,3 +127,110 @@
     transform: translateY(0);
   }
 }
+/* ------------------------------------------------------------------- */
+/* ----------- PREMIUM FLOATING ANIMATED BACKGROUND ----------- */
+#reg-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Multi-color animated gradient */
+  background: linear-gradient(
+    -45deg,
+    #cf7671,
+    #fad0c4,
+    #a1c4fd,
+    #0182be
+  );
+  background-size: 400% 400%;
+  animation: floatingBG 12s ease infinite;
+
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Smooth floating gradient animation */
+@keyframes floatingBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+/* ------------ FORM BOX (Glass Effect) ------------- */
+#reg-box {
+  width: 420px;
+  padding: 35px;
+  border-radius: 18px;
+
+  /* TRUE GLASS */
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  /* Shadow */
+  box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+
+  animation: popup 0.6s ease;
+}
+
+/* Popup animation */
+@keyframes popup {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ------------ TITLE ------------ */
+.reg-title {
+  text-align: center;
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  text-shadow: 0px 2px 4px rgba(0,0,0,0.4);
+}
+
+/* ------------ INPUTS ------------ */
+.reg-field input {
+  border-radius: 10px !important;
+  background: rgba(255,255,255,0.35);
+  color: white !important;
+  border: 1px solid rgba(255,255,255,0.4);
+  transition: 0.2s ease;
+}
+
+.reg-field input::placeholder {
+  color: #e8e8e8 !important;
+}
+
+.reg-field input:focus {
+  transform: scale(1.03);
+  box-shadow: 0 0 10px rgba(255,255,255,0.7);
+}
+
+/* ------------ BUTTON ------------ */
+.reg-btn {
+  background: #ff4b2b !important;
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: 600;
+  color: white !important;
+  transition: 0.3s ease;
+}
+
+.reg-btn:hover {
+  transform: scale(1.07);
+  background: #ff2e0e !important;
+}
+
+/* ------------ SOCIAL BUTTONS ------------ */
+.social-btn {
+  transition: 0.3s ease;
+  backdrop-filter: blur(5px);
+  border-radius: 100%;
+}
+
+.social-btn:hover {
+  transform: translateY(-5px) scale(1.15);
+}

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// ASYNC LOGIN THUNK
+// LOGIN
 export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
   try {
     const res = await axios.post("http://localhost:3000/api/v1/login", data);
@@ -9,6 +9,18 @@ export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
   } catch (error) {
     return thunkAPI.rejectWithValue(
       error.response?.data?.message || "Login Failed"
+    );
+  }
+});
+
+// REGISTER
+export const Register = createAsyncThunk("auth/register", async (data, thunkAPI) => {
+  try {
+    const res = await axios.post("http://localhost:3000/api/v1/register", data);
+    return res.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error.response?.data?.message || "Register Failed"
     );
   }
 });
@@ -21,31 +33,52 @@ const authiSlice = createSlice({
     name: null,
     email: null,
     accessToken: null,
+    refershToken: null,
   },
 
   reducers: {},
 
   extraReducers: (builder) => {
     builder
-      // WHEN API STARTS
-      .addCase(login.pending, (state) => {
+
+      // LOGIN
+      .addCase(login.pending, (state, action) => {
         state.loading = true;
         state.error = null;
+        console.log("Login pending...");
       })
 
-      // WHEN API SUCCESS
       .addCase(login.fulfilled, (state, action) => {
+        console.log(action.payload);
         state.loading = false;
-        state.name = action.payload.name;
-        state.email = action.payload.email;
-        state.accessToken = action.payload.token;
+        state.name = action.payload.data.name;      // MongoDB se
+        state.email = action.payload.data.email;    // MongoDB se
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
+
+
+        localStorage.setItem("accessToken", action.payload.accessToken);
+        localStorage.setItem("refershToken", action.payload.refershToken);
       })
 
-      // WHEN API FAILS
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+
+      // REGISTER
+      .addCase(Register.pending, (state, action) => {
+        state.loading = true;
+      })
+
+      .addCase(Register.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+
+      .addCase(Register.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
 

@@ -34,7 +34,7 @@ const Login = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          Uname: formdata.name, // 🔥 Backend ke according
+          name: formdata.name, // 🔥 Backend ke according
           password: formdata.password,
         }),
       });
@@ -43,7 +43,7 @@ const Login = () => {
 
       if (data.success) {
         toast.success("Login Successful");
-        navigate("/userproduct");
+        navigate("/");
       } else {
         toast.error(data.message || "Invalid Credentials");
       }

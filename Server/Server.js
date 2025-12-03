@@ -27,6 +27,9 @@ const { default: checkRole } = require("./middleware/checkRole");
 const Frontendroute = require("./Router/Frontendroute");
 app.use("/api/v1", Frontendroute);
 
+const Tableroute=require("./Router/tablerouter")
+app.use("/api/v1",Tableroute)
+
 // Protected Route Example
 app.get(
   "/menu",

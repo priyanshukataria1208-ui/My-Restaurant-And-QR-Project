@@ -7,7 +7,7 @@ const UserProduct = () => {
     const token = localStorage.getItem("accessToken");
     console.log("TOKEN FROM FRONTEND ===>", token);
 
-    axios.get("http://localhost:5000/menu", {
+    axios.get("http://localhost:3000/menu", {
       headers: {
         Authorization: `Bearer ${token}`
       }

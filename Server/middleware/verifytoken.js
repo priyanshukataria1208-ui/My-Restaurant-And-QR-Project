@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
+const User=require("../Models/User")
 
-const verifytoken = (req, res, next) => {
+const verifytoken = async(req, res, next) => {
   try {
 
     const authHeader = req.headers.authorization;
@@ -28,8 +29,10 @@ const verifytoken = (req, res, next) => {
     );
 
     console.log("DECODED ===>", decoded);
+    const userData=await User.findById(decoded.id)
 
-    req.user = decoded; // Attach user to request
+    req.user = userData; // Attach user to request
+    console.log(userData)
     next(); // MOVE AHEAD
   } catch (error) {
     console.log("JWT ERROR ===>", error);

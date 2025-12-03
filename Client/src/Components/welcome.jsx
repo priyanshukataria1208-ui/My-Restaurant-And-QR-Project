@@ -5,6 +5,7 @@ const welcome = () => {
   const navigate = useNavigate();
 
   const handleContinueAsGuest = () => {
+    
     localStorage.setItem("guestMode", "true");
     navigate("/");
   };

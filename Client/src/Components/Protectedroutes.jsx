@@ -5,7 +5,7 @@ const Protectedroutes = ({children}) => {
     const accessToken=localStorage.getItem("accessToken")
     console.log(accessToken);
     if(!accessToken){
-        return <Navigate to="/" replace/>
+        return <Navigate to="/" />
     }
   return (
     <div>{children}</div>

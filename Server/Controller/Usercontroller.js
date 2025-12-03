@@ -69,7 +69,7 @@ exports.Login = async (req, res) => {
 
         // Create Access Token
         const accessToken = jwt.sign(
-            { name: user.name, email: user.email, role: user.role },
+            { name: user.name, email: user.email, role: user.role, id:user._id},
             "6971cd8ae32d2e2fd4b9f4b03a19c2c937e837f900402aa733279e14",
             { expiresIn: "1d" }
         );
@@ -82,6 +82,7 @@ exports.Login = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                id:user._id,
             }
         });
 

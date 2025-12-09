@@ -13,6 +13,7 @@ import {
 const Login = () => {
   const navigate = useNavigate();
 
+
   const [formdata, setFormData] = useState({
     name: "",
     password: "",
@@ -20,10 +21,13 @@ const Login = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }));
+      
+    }))
+
   };
 
  const handleLogin = async (e) => {
@@ -45,10 +49,11 @@ const Login = () => {
     if (data.success) {
 
       // 🔥 MOST IMPORTANT LINE
-      localStorage.setItem("accessToken", data.token);
+      localStorage.setItem("accessToken",data.token);
+      localStorage.setItem("role", data.user.role);
 
       toast.success("Login Successful");
-      navigate("/");
+      navigate("/homepage");
     } else {
       toast.error(data.message || "Invalid Credentials");
     }

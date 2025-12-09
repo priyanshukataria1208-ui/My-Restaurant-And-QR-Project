@@ -8,12 +8,18 @@ import Protectedroutes from './components/Protectedroutes';
 
 import Welcome from "./components/welcome";
 import Openroutes from './components/Openroutes';
+import { AuthProvider } from './components/context/AuthContext';
+import Menu from"./components/Menu"
+import TableData from './components/tabledata';
+import Homepage from './components/Homepage';
+
 
 
 
 const App = () => {
   return (
     <div>
+      <AuthProvider>
     <Router>
       <Navbar/>
       <Routes>
@@ -22,9 +28,15 @@ const App = () => {
 <Route path='/Login' element={<Login/>}/>
 <Route path='/' element={<Protectedroutes><UserProduct/></Protectedroutes>}/>
 <Route path='/welcome'element={<Welcome/>}/>
+<Route path='/table' element={<TableData/>}/>
+<Route path='/menu' element={<Menu/>}/>
+<Route path='/homepage' element={<Homepage/>}/>
+
 
       </Routes>
     </Router>
+    </AuthProvider>
+    
     </div>
   )
 }

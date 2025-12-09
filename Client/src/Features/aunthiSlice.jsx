@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+
 // LOGIN
 export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
   try {
@@ -30,14 +31,23 @@ const authiSlice = createSlice({
   initialState: {
     loading: false,
     error: null,
-    name: null,
+    name: localStorage.getItem("name")||null,
     email: null,
-    role: null,
+    role: localStorage.getItem("role")||null,
     accessToken: null,
     refershToken: null,
   },
 
-  reducers: {},
+  reducers: {
+    logOut:(state)=>{
+      state.name=null;
+      state.email=null;
+      state.role=null;
+      localStorage.removeItem("accessToken")
+      localStorage.removeItem("role")
+
+    }
+  },
 
   extraReducers: (builder) => {
     builder
@@ -56,10 +66,12 @@ const authiSlice = createSlice({
         state.email = action.payload.email;    // MongoDB se
         state.accessToken = action.payload.accessToken;
         state.refershToken = action.payload.refershToken;
+        state.role=action.payload.role
 
 
         localStorage.setItem("accessToken", action.payload.accessToken);
         localStorage.setItem("refershToken", action.payload.refershToken);
+        localStorage.setItem("role",action.payload.role)
       })
 
       .addCase(login.rejected, (state, action) => {
@@ -84,3 +96,4 @@ const authiSlice = createSlice({
 });
 
 export default authiSlice.reducer;
+export const {logOut}=authiSlice.actions

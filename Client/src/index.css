@@ -1,9 +1,14 @@
-@import "tailwindcss";
+
 
 #navbar {
-    background: linear-gradient(to right, #4e54c8, #8f94fb);
+    background: linear-gradient(to right, #840b2a, #840b2a);
     height: 70px;
+    color: white;
 
+}
+#logoutbtn{
+      color: rgb(255, 255, 255);
+      border: 3px solid white;
 }
 #foodtitle{
     text-align: center;
@@ -24,6 +29,7 @@
 #navbar ul li a {
     color: rgb(240, 239, 239);
     font-weight: bolder;
+    font-size: 20px;
 
 
 }
@@ -403,3 +409,319 @@
   margin-right: 6px;
   color: #ffb6ff;
 }
+/* --------------------------------- */
+/* === FULL DARK BACKGROUND === */
+body {
+  background-color: #121212;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.user-container {
+  padding: 25px;
+  max-width: 1100px;
+  margin: auto;
+  background: #1c1c1c;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255,255,255,0.08);
+}
+
+/* Title */
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+/* Table */
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #2a2a2a;
+  color: white;
+  box-shadow: 0 0 10px rgba(255,255,255,0.08);
+}
+
+.styled-table thead {
+  background: #0d7377;
+  color: white;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #444;
+}
+
+.styled-table tr:hover {
+  background: #383838;
+}
+
+/* Action Buttons */
+.btn {
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  margin: 3px;
+  cursor: pointer;
+  border: none;
+}
+
+/* Button Colors */
+.update { background: #f9a825; color: #121212; }
+.delete { background: #d32f2f; color: #fff; }
+.deactivate { background: #616161; color: #fff; }
+.save { background: #43a047; color: #fff; }
+.cancel { background: #757575; color: #fff; }
+
+/* Edit Form Styling */
+.edit-form {
+  background: #2b2b2b;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background: #3c3c3c;
+  color: white;
+}
+body {
+  background-color: #0A0A0A !important;
+  color: white !important;
+}
+
+table, th, td {
+  background-color: #111 !important;
+  color: white !important;
+}
+
+button {
+  background-color: #1E1E1E !important;
+  color: white !important;
+}
+/* --------------------------- */
+/* Menu.css */
+
+/* Background handled by gradient in JSX or body, so remove black */
+
+/* Glass card style */
+.menu-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.menu-card:hover {
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* Hover glow effect on SVG */
+.menu-card svg {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.menu-card:hover svg {
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 10px #00f0ff) drop-shadow(0 0 10px #ff00ff);
+}
+
+/* Background blobs animation */
+@keyframes blob {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+.blob {
+  position: absolute;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.15;
+  animation: blob 10s infinite;
+}
+
+.blob-delay {
+  animation-delay: 2s;
+}
+
+/* ------------------------------------------Tabledata */
+.table-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+}
+
+.table-container {
+  width: 75%;
+  background: #111;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+}
+
+.table-title {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #c9b7ff;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Table Styling */
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #181818;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 16px;
+  text-align: center;
+  border-bottom: 1px solid #222;
+  color: white;
+}
+
+/* Buttons */
+.update-btn {
+  background: #4e4e4e;
+  border: none;
+  padding: 8px 14px;
+  margin-right: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+}
+
+.delete-btn {
+  background: #9b0000;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+}
+
+/* Edit Form */
+.table-edit-form {
+  background: #151515;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+}
+
+.table-edit-form input {
+  width: 45%;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+.btn-group {
+  margin-top: 8px;
+}
+
+.cancel-btn {
+  background: #444;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* --------------------------Homepage */
+.landing-bg {
+  min-height: 100vh;
+  background: #840b2a;
+  padding-top: 70px;
+  color: white;
+}
+
+.hero-wrapper {
+  text-align: center;
+  max-width: 750px;
+  margin: auto;
+}
+
+.top-text {
+  font-size: 30px;
+  opacity: 0.9;
+  letter-spacing: 1px;
+}
+
+.hero-title {
+  font-size: 45px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.hero-subtext {
+  font-size: 18px;
+  margin-top: 12px;
+  opacity: 0.85;
+}
+
+.hero-btn {
+  background: white;
+  color: black;
+  margin-top: 25px;
+  padding: 12px 35px;
+  font-size: 18px;
+  border-radius: 30px;
+}
+
+.food-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 30px;
+}
+
+.food-img {
+  width: 100%;
+  border-radius: 15px;
+  margin-top: 15px;
+}
+
+.brand-name {
+  font-size: 48px;
+  color: #b01048;
+  font-family: serif;
+}
+
+.menu-links {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 15px;
+}
+
+.menu-links a {
+  color: #a1154c;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.menu-links a:hover {
+  text-decoration: underline;
+}
+

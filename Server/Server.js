@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-require('events').EventEmitter.defaultMaxListeners = 20; // 🔥 Prevent MaxListeners warning
+require('events').EventEmitter.defaultMaxListeners = 20; 
 
 // JSON Parser
 app.use(express.json());
@@ -27,8 +27,17 @@ const { default: checkRole } = require("./middleware/checkRole");
 const Frontendroute = require("./Router/Frontendroute");
 app.use("/api/v1", Frontendroute);
 
-const Tableroute=require("./Router/tablerouter")
-app.use("/api/v1",Tableroute)
+
+const Tableroute = require("./Router/tablerouter");
+const { error } = require("console");
+
+const SessionRoutes = require("./Router/sessionroute")
+const Getuser = require("./Router/userroute")
+
+app.use("/api/v1", Tableroute)
+app.use('/api/v1', SessionRoutes)
+app.use("/api/v1", Getuser)
+
 
 // Protected Route Example
 app.get(
@@ -40,6 +49,14 @@ app.get(
   }
 );
 
+app.use((err, req, res, next) => {
+  if (err) {
+    res.status(err.status || 500).json({
+      message: err?.message || "server error"
+    })
+  }
+})
+
 // Static Files
 app.use(express.static("public"));
 
@@ -48,3 +65,15 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+
+
+
+
+
+
+
+
+
+
+

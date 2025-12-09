@@ -4,7 +4,7 @@ const generateAccessToken = (payload) => {
   return jwt.sign(
     payload,
     "6971cd8ae32d2e2fd4b9f4b03a19c2c937e837f900402aa733279e14",
-    { expiresIn: "1d" }
+    { expiresIn: "7d" }
   );
 };
 

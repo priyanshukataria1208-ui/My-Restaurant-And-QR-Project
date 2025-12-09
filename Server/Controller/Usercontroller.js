@@ -1,12 +1,12 @@
 const User = require("../Models/User");
 const bcrypt = require("bcrypt");
 const { generateAccessToken, generateRefreshToken } = require("../utlis/jwt");
-const jwt =require("jsonwebtoken")
+const jwt = require("jsonwebtoken")
 
 
 exports.Register = async (req, res) => {
   try {
-    const { name, email, password,phone } = req.body;
+    const { name, email, password, phone } = req.body;
 
     // Check if username exists
     const usercheck = await User.findOne({ name: name });
@@ -47,52 +47,58 @@ exports.Register = async (req, res) => {
 
 
 exports.Login = async (req, res) => {
-    try {
-        const { name, password } = req.body;
+  try {
+    const { name, password } = req.body;
 
-        const user = await User.findOne({ name });
+    const user = await User.findOne({ name });
+    
 
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: "User not found"
-            });
-        }
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(401).json({
-                success: false,
-                message: "Incorrect Password"
-            });
-        }
-
-        // Create Access Token
-        const accessToken = jwt.sign(
-            { name: user.name, email: user.email, role: user.role, id:user._id},
-            "6971cd8ae32d2e2fd4b9f4b03a19c2c937e837f900402aa733279e14",
-            { expiresIn: "1d" }
-        );
-
-        return res.status(200).json({
-            success: true,
-            message: "Login Successful",
-            token: accessToken,
-            user: {
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                id:user._id,
-            }
-        });
-
-    } catch (error) {
-        console.log("LOGIN ERROR:", error);
-        return res.status(500).json({
-            success: false,
-            message: "Server Error"
-        });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
     }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Incorrect Password"
+      });
+    }
+    
+
+    // Create Access Token
+    const accessToken = jwt.sign(
+      { name: user.name, email: user.email, role: user.role, id: user._id },
+      "6971cd8ae32d2e2fd4b9f4b03a19c2c937e837f900402aa733279e14",
+      { expiresIn: "1d" }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Login Successful",
+      token: accessToken,
+      user: {
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        id: user._id,
+      }
+    });
+
+  } catch (error) {
+    console.log("LOGIN ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error"
+    });
+  }
+  
 
 
 };
+
+
+// 

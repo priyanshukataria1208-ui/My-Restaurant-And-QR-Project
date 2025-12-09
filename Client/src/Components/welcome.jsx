@@ -1,11 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { UtensilsCrossed, UserPlus, LogIn, User, Sparkles } from "lucide-react";
-
+import {useDispatch} from"react-redux"
+import { session } from "../Features/guestSlice";
+import { useParams,useSearchParams } from "react-router-dom";
 const welcome = () => {
   const navigate = useNavigate();
+  const dispatch=useDispatch()
+  console.log(useParams())
 
+  const [searchParams]=useSearchParams()
+const qrSlug=searchParams.get("qrSlug")
   const handleContinueAsGuest = () => {
-    
+      dispatch(session({deviceId : 'jfjdk' , qrSlug }))
+
     localStorage.setItem("guestMode", "true");
     navigate("/");
   };

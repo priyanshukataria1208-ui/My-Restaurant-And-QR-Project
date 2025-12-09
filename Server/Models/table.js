@@ -21,6 +21,11 @@ const tableSchema = mongoose.Schema({
     },
     capacity: {
         type: Number
-    }
+    },
+    isActive : {
+    type : Boolean ,
+    default : true
+}
+
 });
 module.exports = mongoose.model("table", tableSchema)

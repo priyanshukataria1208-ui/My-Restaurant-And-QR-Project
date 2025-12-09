@@ -94,6 +94,7 @@ const Register = () => {
             label="Password"
             name="password"
             value={formdata.password}
+            maxLength={6}
             onChange={handleChange}
             required
           />

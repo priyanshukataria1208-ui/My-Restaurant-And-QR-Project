@@ -14,6 +14,7 @@ import { AuthContext } from './components/context/AuthContext';
 import Addfooditem from './components/Addfooditem';
 import Adminfoodproduct from './components/Adminfoodproduct';
 import Footer from './components/Footer';
+import Cartpage from './components/Cartpage';
 
 const App = () => {
   return (
@@ -43,6 +44,7 @@ const MainApp = () => {
         <Route path="/admindash" element={<Admindashbord />} />
         <Route path='/admininsertform' element={<Addfooditem />} />
         <Route path='/adminfoodproduct' element={<Adminfoodproduct />} />
+<Route path='/cartpage' element={<Cartpage/>}/>
       </Routes>
 
       {/* Footer only for non-admin users */}

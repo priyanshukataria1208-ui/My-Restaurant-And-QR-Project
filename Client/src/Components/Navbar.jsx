@@ -58,7 +58,7 @@ const Navbar = () => {
           
           {localStorage.getItem("role") === "customer" ?(
             <li>
-              <Link to="">Cart</Link>
+              <Link to="/cartpage">Cart</Link>
 
             </li>
             

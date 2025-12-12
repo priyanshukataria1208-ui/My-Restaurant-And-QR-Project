@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import {
@@ -9,10 +9,11 @@ import {
   MDBBtn,
   MDBIcon,
 } from "mdb-react-ui-kit";
+import { AuthContext } from "./context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-
+const {userId}=useContext(AuthContext)
 
   const [formdata, setFormData] = useState({
     name: "",
@@ -49,6 +50,7 @@ const Login = () => {
 
   localStorage.setItem("accessToken", data.token);
   localStorage.setItem("role", data.user.role);
+  localStorage.setItem("userId",data.user.userId)
 
   toast.success("Login Successful");
 

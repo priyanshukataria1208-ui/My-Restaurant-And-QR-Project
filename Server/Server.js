@@ -33,10 +33,14 @@ const { error } = require("console");
 
 const SessionRoutes = require("./Router/sessionroute")
 const Getuser = require("./Router/userroute")
+const menuroute=require("./Router/Menuroute")
+const Productroute=require("./Router/Products")
 
 app.use("/api/v1", Tableroute)
 app.use('/api/v1', SessionRoutes)
 app.use("/api/v1", Getuser)
+app.use("/api/v1",menuroute)
+app.use("/api/v1",Productroute)
 
 
 // Protected Route Example

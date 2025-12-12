@@ -1,5 +1,4 @@
 const router = require("express").Router();
-
 const UserC = require("../Controller/getusercontroller");
 const { default: checkRole } = require("../middleware/checkRole");
 const verifytoken = require("../middleware/verifytoken")

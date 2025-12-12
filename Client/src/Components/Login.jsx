@@ -45,18 +45,20 @@ const Login = () => {
     });
 
     const data = await res.json();
+   if (res.ok && data.success) {
 
-    if (data.success) {
+  localStorage.setItem("accessToken", data.token);
+  localStorage.setItem("role", data.user.role);
 
-      // 🔥 MOST IMPORTANT LINE
-      localStorage.setItem("accessToken",data.token);
-      localStorage.setItem("role", data.user.role);
+  toast.success("Login Successful");
 
-      toast.success("Login Successful");
-      navigate("/homepage");
-    } else {
-      toast.error(data.message || "Invalid Credentials");
-    }
+  if (data.user.role === "admin") {
+    navigate("/admindash");     // Admin page
+  } else {
+    navigate("/homepage");  // Customer page
+  }
+}
+
   } catch (err) {
     toast.error("Server Error");
     console.log(err);

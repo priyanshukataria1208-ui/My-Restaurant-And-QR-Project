@@ -1,1 +1,240 @@
-/* @import 'tailwindcss'; */
+@import 'tailwindcss';
+@keyframes fade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade {
+  animation: fade .18s ease-in-out;
+}
+
+/* ---------------------------------
+    MAIN LAYOUT
+-----------------------------------*/
+.admin-main {
+  display: flex;
+  flex-direction: column;
+  
+  width: 100%;
+}
+
+/* ---------------------------------
+    HEADER
+-----------------------------------*/
+.admin-header {
+  background: rgba(18, 18, 18, 0.85);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid #242424;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.header-wrapper {
+  max-width: 1240px;
+  margin: auto;
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ---------------------------------
+    LOGO
+-----------------------------------*/
+.logo-sec {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #1a1a1a;
+  border: 1px solid #2e2e2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.logo-sub {
+  font-size: 9px;
+  letter-spacing: 0.7px;
+  color: #9b9b9b;
+}
+
+/* ---------------------------------
+    DESKTOP NAV
+-----------------------------------*/
+.nav-desktop {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-link {
+  color: #bfbfbf;
+  font-size: 14px;
+  transition: 0.22s ease;
+}
+.nav-link:hover {
+  color: #fff;
+}
+
+/* ---------------------------------
+    RIGHT SIDE
+-----------------------------------*/
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---------------------------------
+    PROFILE
+-----------------------------------*/
+.profile-container {
+  position: relative;
+  display: inline-block;
+  z-index: 60;
+}
+
+.profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: #141414;
+  border: 1px solid #2b2b2b;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.profile-avatar {
+  background: #303030;
+  width: 28px;
+  height: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-name {
+  font-size: 12px;
+  font-weight: 500;
+}
+.profile-role {
+  font-size: 9px;
+  color: #878787;
+}
+
+.arrow {
+  transition: 0.22s ease;
+}
+.arrow.rotated {
+  transform: rotate(180deg);
+}
+
+/* ---------------------------------
+    DROPDOWN
+-----------------------------------*/
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 220px;
+  background: #0f0f0f;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  padding: 8px;
+  z-index: 999;
+  animation: dropdownIn .12s ease-out;
+}
+
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.dropdown-top {
+  padding: 8px;
+  border-bottom: 1px solid #2b2b2b;
+}
+.drop-name {
+  font-size: 13px;
+  color: #fff;
+}
+.drop-email {
+  font-size: 11px;
+  color: #a3a3a3;
+  margin-top: 2px;
+}
+
+.drop-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px;
+  font-size: 13px;
+  background: transparent;
+  border-radius: 6px;
+  margin-top: 4px;
+  transition: 0.18s ease;
+  cursor: pointer;
+  color: #eaeaea;
+}
+.drop-item:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+.drop-item.danger {
+  color: #ff7b7b;
+}
+
+/* ---------------------------------
+    PAGE CONTENT
+-----------------------------------*/
+.page-wrapper {
+  flex: 1;
+  width: 100%;
+  max-width: 1240px;
+  margin: auto;
+  padding: 22px;
+  overflow-y: auto;
+}
+
+/* ---------------------------------
+    MOBILE
+-----------------------------------*/
+.mobile-menu-btn {
+  display: none;
+  font-size: 22px;
+  color: #cfcfcf;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .nav-desktop {
+    display: none;
+  }
+  .mobile-menu-btn {
+    display: block;
+  }
+  .profile-container {
+    display: none;
+  }
+  .mobile-menu {
+    display: block;
+  }
+}

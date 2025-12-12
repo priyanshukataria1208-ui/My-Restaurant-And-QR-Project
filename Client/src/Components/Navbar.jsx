@@ -1,64 +1,92 @@
-import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext";
 
 const Navbar = () => {
+  const [profileOpen, setProfileOpen] = useState(false);
   const navigate = useNavigate();
 
-  const accessToken = localStorage.getItem("accessToken");
+  const { accessToken, role, logout } = useContext(AuthContext);
 
-  function handleremove(e) {
-    e.preventDefault();
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("role")
+  const handleLogout = () => {
+    logout();
     navigate("/Login");
-  }
+  };
 
   return (
-    <nav className="navbar navbar-expand-lg  " id="navbar">
-      <div className="container-fluid" >
-        <NavLink className="navbar-brand" id="logo">
-          🍔Restaurant
-        </NavLink>
+    <div className="navbar " id="navbar">
 
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navmenu"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className="collapse navbar-collapse" id="navmenu">
-          <ul className="navbar-nav ms-auto">
-
-            {accessToken ? (
-              <>
-                <li className="nav-item">
-                  <button className="nav-link btn" onClick={handleremove} id="logoutbtn">
-                    Logout
-                  </button>
-                </li>
-              </>
-            ) : (
-              <>
-                <li className="nav-item">
-                  <NavLink className="nav-link" to="/Reg">
-                    Registration
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink className="nav-link" to="/Login">
-                    Login
-                  </NavLink>
-                </li>
-              </>
-            )}
-
-          </ul>
-        </div>
+      {/* Left */}
+      <div className="navbar-left">
+        <h1 className="logo">🍽️ Comida</h1>
       </div>
-    </nav>
+
+      {/* Middle */}
+    
+
+      {/* Right */}
+      <div className="navbar-right">
+        <ul className="menu">
+  <li><Link to="/menu">Menu</Link></li>
+
+          <li><Link to="/order">🛎️Orders</Link></li>
+           
+ {localStorage.getItem("role") === "admin" ?(
+            <li>
+              <Link to="/">User</Link>
+
+            </li>
+            
+          ):null}
+          {/* Admin Dashboard Access */}
+          {localStorage.getItem("role") === "admin" ?(
+            <li>
+              <Link to="/admindash">Dashboard</Link>
+
+            </li>
+            
+          ):null}
+
+          {localStorage.getItem("role") === "admin" ?(
+            <li>
+              <Link to="/table">Table</Link>
+
+            </li>
+            
+          ):null}
+        
+          
+          {localStorage.getItem("role") === "customer" ?(
+            <li>
+              <Link to="">Cart</Link>
+
+            </li>
+            
+          ):null}
+
+          
+          
+         
+
+
+       <button id="logoutbtn">
+           <li className="profile" onClick={() => setProfileOpen(!profileOpen)}>
+           {`👤 ${role || "User"}`}
+
+
+            {/* Dropdown */}
+            {profileOpen && (
+              <ul className="dropdown">
+                <li className="drop">👨🏻‍💻Profile</li>
+                <li className="drop">⚙️Settings</li>
+                <li onClick={handleLogout}className="drop">➜] Logout </li>
+              </ul>
+            )}
+          </li>
+       </button>
+        </ul>
+      </div>
+    </div>
   );
 };
 

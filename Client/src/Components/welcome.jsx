@@ -8,6 +8,7 @@ const welcome = () => {
   const dispatch=useDispatch()
   console.log(useParams())
 
+
   const [searchParams]=useSearchParams()
 const qrSlug=searchParams.get("qrSlug")
   const handleContinueAsGuest = () => {

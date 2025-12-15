@@ -1,27 +1,48 @@
-import React from 'react'
-import { Link } from "react-router-dom"
+import React from "react";
+import Sidebar from "./pages/Slidebar";
+import TopStats from "./pages/TopStats";
+import Charts from "./pages/Charts";
+import Favourites from "./pages/FavouriteItems";
+import RecentOrders from "./pages/Recentorder";
 
 
-const Admindashbord = () => {
+const Admindashboard = () => {
   return (
-    <div className="admin-page">
-      <h2 className="admin-title">Admin Dashboard</h2>
+    <div className="gd-app">
+      <Sidebar />
 
-      <div className="admin-cards">
+      <main className="gd-main">
+        {/* HEADER */}
+        <header className="gd-header">
+          <h1>Dashboard</h1>
+          <div className="gd-header-actions">
+            <input className="search" placeholder="Search..." />
+            <div className="avatar">P</div>
+          </div>
+        </header>
 
-        <Link to="/admininsertform" className="admin-card">
-          <h3>Add Food Product</h3>
-          <p>Insert new food item to the menu</p>
-        </Link>
+        {/* TOP STATS */}
+        <TopStats />
 
-        <Link to="/adminfoodproduct" className="admin-card">
-          <h3>All Food Products</h3>
-          <p>View, edit & delete food products</p>
-        </Link>
+        {/* GRAPH + FAVOURITES */}
+        <section className="dashboard-grid">
+          <Charts />
+          <Favourites />
+        </section>
 
-      </div>
+        {/* ORDERS + TARGET */}
+        <section className="dashboard-grid bottom">
+          <RecentOrders />
+
+          <div className="card target-card">
+            <h4>Daily Target Income</h4>
+            <div className="donut">72%</div>
+            <p>₹786.58 from ₹1,000</p>
+          </div>
+        </section>
+      </main>
     </div>
-  )
-}
+  );
+};
 
-export default Admindashbord
+export default Admindashboard;

@@ -20,4 +20,4 @@ const menuSchema=mongoose.Schema({
     type : String
  } //ui
 })
-module.exports=mongoose.model("menu",menuSchema)
+module.exports=mongoose.model("Menu",menuSchema)

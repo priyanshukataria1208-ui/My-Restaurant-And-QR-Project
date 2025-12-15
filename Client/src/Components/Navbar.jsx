@@ -2,11 +2,13 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 
+
 const Navbar = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const navigate = useNavigate();
-
   const { accessToken, role, logout } = useContext(AuthContext);
+
+  if (!accessToken) return null;
 
   const handleLogout = () => {
     logout();
@@ -14,79 +16,48 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar " id="navbar">
-
-      {/* Left */}
-      <div className="navbar-left">
+    <nav className="navbar-glass" id="navbar">
+      {/* LEFT */}
+      <div className="nav-left">
         <h1 className="logo">🍽️ Comida</h1>
       </div>
 
-      {/* Middle */}
-    
+      {/* RIGHT */}
+      <ul className="nav-links">
+        {role === "customer" && (
+          <>
+            <li id="foodtitle"><Link to="/menu">Menu</Link></li>
+            <li id="foodtitle"><Link to="/cartpage">Cart</Link></li>
+          </>
+        )}
+{/* 
+        {role === "admin" && (
+          <>
+            <li><Link to="/admindash">Dashboard</Link></li>
+            <li><Link to="/foodproduct">Products</Link></li>
+          </>
+        )} */}
 
-      {/* Right */}
-      <div className="navbar-right">
-        <ul className="menu">
-  <li><Link to="/menu">Menu</Link></li>
+        {/* PROFILE */}
+        <li
+          className="profile-btn"
+          onClick={() => setProfileOpen(!profileOpen)}
+          id="logoutbtn"
+        >
+          👤 {role}
 
-          <li><Link to="/order">🛎️Orders</Link></li>
-           
- {localStorage.getItem("role") === "admin" ?(
-            <li>
-              <Link to="/">User</Link>
-
-            </li>
-            
-          ):null}
-          {/* Admin Dashboard Access */}
-          {localStorage.getItem("role") === "admin" ?(
-            <li>
-              <Link to="/admindash">Dashboard</Link>
-
-            </li>
-            
-          ):null}
-
-          {localStorage.getItem("role") === "admin" ?(
-            <li>
-              <Link to="/table">Table</Link>
-
-            </li>
-            
-          ):null}
-        
-          
-          {localStorage.getItem("role") === "customer" ?(
-            <li>
-              <Link to="/cartpage">Cart</Link>
-
-            </li>
-            
-          ):null}
-
-          
-          
-         
-
-
-       <button id="logoutbtn">
-           <li className="profile" onClick={() => setProfileOpen(!profileOpen)}>
-           {`👤 ${role || "User"}`}
-
-
-            {/* Dropdown */}
-            {profileOpen && (
-              <ul className="dropdown">
-                <li className="drop">👨🏻‍💻Profile</li>
-                <li className="drop">⚙️Settings</li>
-                <li onClick={handleLogout}className="drop">➜] Logout </li>
-              </ul>
-            )}
-          </li>
-       </button>
-        </ul>
-      </div>
-    </div>
+          {profileOpen && (
+            <div className="profile-dropdown">
+              <span>Profile</span>
+              <span>Settings</span>
+              <span className="logout" onClick={handleLogout}>
+                Logout
+              </span>
+            </div>
+          )}
+        </li>
+      </ul>
+    </nav>
   );
 };
 

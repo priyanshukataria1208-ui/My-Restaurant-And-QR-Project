@@ -1,19 +1,24 @@
-import React, { useContext, useState } from "react";
-import toast from "react-hot-toast";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  MDBInput,
-  MDBCol,
-  MDBRow,
-  MDBCheckbox,
-  MDBBtn,
-  MDBIcon,
-} from "mdb-react-ui-kit";
+import toast from "react-hot-toast";
 import { AuthContext } from "./context/AuthContext";
+
+import {
+  Theme,
+  Card,
+  Text,
+  TextField,
+  Button,
+  Flex,
+  Link
+} from "@radix-ui/themes";
+
+import "@radix-ui/themes/styles.css";
+
 
 const Login = () => {
   const navigate = useNavigate();
-const {userId}=useContext(AuthContext)
+  const { login } = useContext(AuthContext);
 
   const [formdata, setFormData] = useState({
     name: "",
@@ -22,118 +27,83 @@ const {userId}=useContext(AuthContext)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-      
-    }))
-
+    setFormData((p) => ({ ...p, [name]: value }));
   };
 
- const handleLogin = async (e) => {
-  e.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  try {
-    const res = await fetch("http://localhost:3000/api/v1/login", {
-      
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: formdata.name,
-        password: formdata.password,
-      }),
-    });
+    try {
+      const res = await fetch("http://localhost:3000/api/v1/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formdata),
+      });
 
-    const data = await res.json();
-   if (res.ok && data.success) {
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        toast.error("Invalid credentials");
+        return;
+      }
 
-  localStorage.setItem("accessToken", data.token);
-  localStorage.setItem("role", data.user.role);
-  localStorage.setItem("userId",data.user.userId)
+      login(data.token, data.user.role, data.user.id);
+      toast.success("Login Successful");
 
-  toast.success("Login Successful");
-
-  if (data.user.role === "admin") {
-    navigate("/admindash");     // Admin page
-  } else {
-    navigate("/homepage");  // Customer page
-  }
-}
-
-  } catch (err) {
-    toast.error("Server Error");
-    console.log(err);
-  }
-};
-
-
+      navigate(data.user.role === "admin" ? "/admindash" : "/homepage");
+    } catch {
+      toast.error("Server error");
+    }
+  };
 
   return (
-    <div id="reg-wrapper">
-      <form id="reg-box" onSubmit={handleLogin}>
-        <h2 className="reg-title">🔑 Login Form</h2>
+<Theme
+  appearance="dark"
+  accentColor="sky"   // 🔥 change karo → art ka color change hoga
+  grayColor="sand"
+  radius="large"
+  panelBackground="translucent"
+>
+      <div className="login-bg">
+        <Card size="4" className="login-card">
+          <form onSubmit={handleLogin}>
+            <Flex direction="column" gap="4">
+              <Text size="6" weight="bold" align="center">
+                Sign in
+              </Text>
 
-        <section className="reg-inputs">
-          {/* Username */}
-          <MDBInput
-            className="mb-3 reg-field"
-            type="text"
-            label="Username"
-            name="name"              // 🔥 REQUIRED
-            value={formdata.name}
-            onChange={handleChange}
-            required
-          />
+              <TextField.Root
+                placeholder="Username"
+                name="name"
+                value={formdata.name}
+                onChange={handleChange}
+                required
+              />
 
-          {/* Password */}
-          <MDBInput
-            className="mb-3 reg-field"
-            type="password"
-            label="Password"
-            name="password"         // 🔥 REQUIRED
-            value={formdata.password}
-            onChange={handleChange}
-            required
-          />
-        </section>
+              <TextField.Root
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={formdata.password}
+                onChange={handleChange}////////////////////////-
+                required
+              />
 
-        <MDBRow className="mb-3">
-          <MDBCol className="d-flex justify-content-start">
-            <MDBCheckbox label="Remember me" defaultChecked />
-          </MDBCol>
-          <MDBCol className="text-end">
-            <a href="/forget">Forgot password?</a>
-          </MDBCol>
-        </MDBRow>
+              <Link size="2" href="/forget">
+                Forgot password?
+              </Link>
 
-        <MDBBtn type="submit" className="reg-btn" block>
-          Login
-        </MDBBtn>
+              <Button size="3" type="submit">
+                Sign In
+              </Button>
 
-        <div className="text-center mt-3">
-          <p>
-            Don’t have an account? <a href="/Reg">Register</a>
-          </p>
-          <p>Or sign in with:</p>
-
-          <div className="social-wrap">
-            <MDBBtn floating color="secondary" className="mx-1">
-              <MDBIcon fab icon="facebook-f" />
-            </MDBBtn>
-            <MDBBtn floating color="secondary" className="mx-1">
-              <MDBIcon fab icon="google" />
-            </MDBBtn>
-            <MDBBtn floating color="secondary" className="mx-1">
-              <MDBIcon fab icon="twitter" />
-            </MDBBtn>
-            <MDBBtn floating color="secondary" className="mx-1">
-              <MDBIcon fab icon="github" />
-            </MDBBtn>
-          </div>
-        </div>
-      </form>
-    </div>
+              <Text size="2" align="center" color="gray">
+                Don’t have an account? <Link href="/Reg">Create one</Link>
+              </Text>
+            </Flex>
+          </form>
+        </Card>
+      </div>
+    </Theme>
   );
 };
 

@@ -27,11 +27,11 @@ const App = () => {
 }
 
 const MainApp = () => {
-  const { accessToken,role } = useContext(AuthContext);
+  const { accessToken, role } = useContext(AuthContext);
 
   return (
     <>
-      { <Navbar />}
+      {<Navbar />}
 
       <Routes>
         <Route path="/Reg" element={<Register />} />
@@ -44,12 +44,12 @@ const MainApp = () => {
         <Route path="/admindash" element={<Admindashbord />} />
         <Route path='/admininsertform' element={<Addfooditem />} />
         <Route path='/adminfoodproduct' element={<Adminfoodproduct />} />
-<Route path='/cartpage' element={<Cartpage/>}/>
+        <Route path='/cartpage' element={<Cartpage />} />
       </Routes>
 
       {/* Footer only for non-admin users */}
-      {role !== "admin" && <Footer />}
- 
+
+
     </>
   );
 };

@@ -1,5 +1,5 @@
 const Menu = require("../Models/menu");
-const cloudinary=require("../config/cloudinary")
+const cloudinary = require("../config/cloudinary")
 
 // 👉 Get all products
 exports.createproduct = async (req, res) => {

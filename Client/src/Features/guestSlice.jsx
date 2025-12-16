@@ -5,7 +5,7 @@ const initialState = {
   sessionToken: null,
   loading: false,
   error: null,
-  role:null
+  role: null
 };
 
 //session creation thunk
@@ -25,15 +25,15 @@ const guestSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(session.pending, () => {})
+      .addCase(session.pending, () => { })
       .addCase(session.fulfilled, (state, action) => {
         console.log(action.payload);
         state.sessionToken = action.payload.data.sessionToken;
-        state.role=action.payload.data.role;
+        state.role = action.payload.data.role;
         localStorage.setItem('sessionToken', action.payload.data.sessionToken);
-        localStorage.setItem("role",action.payload.data.role)
+        localStorage.setItem("role", action.payload.data.role)
       })
-      .addCase(session.rejected, () => {});
+      .addCase(session.rejected, () => { });
   },
 });
 

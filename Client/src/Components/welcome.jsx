@@ -15,7 +15,7 @@ const qrSlug=searchParams.get("qrSlug")
       dispatch(session({deviceId : 'jfjdk' , qrSlug }))
 
     localStorage.setItem("guestMode", "true");
-    navigate("/");
+    navigate("/homepage");
   };
 
   return (

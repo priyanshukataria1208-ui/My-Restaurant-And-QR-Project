@@ -4,7 +4,7 @@ const {default: checkRole} = require("../middleware/checkRole");
 const verifytoken = require("../middleware/verifytoken");
 
 // Create table
-router.post("/table", verifytoken, checkRole(["admin"]), TableC.Createtable);
+router.post("/table",  TableC.Createtable);
 
 // Get table by slug
 router.get("/table/:slug", TableC.getTableBySlug);

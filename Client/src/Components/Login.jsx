@@ -56,13 +56,13 @@ const Login = () => {
   };
 
   return (
-<Theme
-  appearance="dark"
-  accentColor="sky"   // 🔥 change karo → art ka color change hoga
-  grayColor="sand"
-  radius="large"
-  panelBackground="translucent"
->
+    <Theme
+      appearance="dark"
+      accentColor="sky"   // 🔥 change karo → art ka color change hoga
+      grayColor="sand"
+      radius="large"
+      panelBackground="translucent"
+    >
       <div className="login-bg">
         <Card size="4" className="login-card">
           <form onSubmit={handleLogin}>

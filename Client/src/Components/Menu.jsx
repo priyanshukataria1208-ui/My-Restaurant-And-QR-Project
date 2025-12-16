@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
+
 
 const Menu = () => {
   const [foods, setFoods] = useState([]);
   const [search, setSearch] = useState("");
   const [loadingId, setLoadingId] = useState(null);
+   // ✅ Zomato style message
 
   const userId = localStorage.getItem("userId"); // 👈 LOGIN USER ID
 
@@ -18,13 +21,22 @@ const Menu = () => {
       setFoods(res.data.data || []);
     } catch (error) {
       console.log("Error:", error);
+      showToast("Failed to load menu items");
     }
+  };
+
+  // ✅ Show toast message
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => {
+      setToast(""); // auto disappear after 3 seconds
+    }, 3000);
   };
 
   // ✅ ADD TO CART
   const addToCart = async (menuItemId) => {
     if (!userId) {
-      alert("Please login first!");
+      showToast("Please login first!");
       return;
     }
 
@@ -37,10 +49,10 @@ const Menu = () => {
         quantity: 1,
       });
 
-      alert("Item added to cart 🛒");
+      toast.success("Item added to cart 🛒");
     } catch (error) {
       console.log("ADD CART ERROR:", error.response?.data || error.message);
-      alert("Failed to add item");
+      toast.error("Failed to add item");
     } finally {
       setLoadingId(null);
     }
@@ -53,6 +65,9 @@ const Menu = () => {
   return (
     <div className="menu-page">
       <h1 className="menu-title">Our Menu</h1>
+
+      {/* 🔔 Toast message */}
+      {toast && <div className="toast">{toast}</div>}
 
       {/* SEARCH BAR */}
       <div className="search-box">
@@ -92,6 +107,26 @@ const Menu = () => {
           ))
         )}
       </div>
+
+      {/* 🔧 Toast CSS inline for example */}
+      <style>{`
+        .toast {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: #4BB543;
+          color: white;
+          padding: 12px 20px;
+          border-radius: 5px;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+          z-index: 9999;
+          animation: slide-in 0.3s ease;
+        }
+        @keyframes slide-in {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 };

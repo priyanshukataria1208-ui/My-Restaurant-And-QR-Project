@@ -2,13 +2,24 @@ const Table = require("../Models/table");
 const crypto = require("crypto");
 const QRCode = require("qrcode");
 const { successResponse } = require("../utlis/successResponse");
+const os = require("os")
+
+
+
 
 exports.Createtable = async (req, res) => {
   try {
     const { tableNumber, capacity } = req.body;
+    const data = os.networkInterfaces()['Wi-Fi']
+    let ipAddress = null
+    for (const el of data) {
+      if (el.family === "IPv4")
+        ipAddress = el.address
+    }
+    console.log(ipAddress)
 
     const qrSlug = crypto.randomBytes(6).toString("hex");
-    const qrCodeUrl = `http://localhost:5173/welcome?qr=${qrSlug}`;
+    const qrCodeUrl = `http://${ipAddress}:5173/welcome?qr=${qrSlug}`;
 
     QRCode.toDataURL(qrCodeUrl, async (err, url) => {
       const table = new Table({

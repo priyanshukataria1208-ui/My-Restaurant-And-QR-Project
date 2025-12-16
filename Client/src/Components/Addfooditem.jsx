@@ -46,34 +46,34 @@ const AddFoodItem = ({ type }) => {
 
         <input type="text" placeholder="Name"
           value={formdata.name}
-          onChange={e => setFormData({...formdata, name: e.target.value})}
+          onChange={e => setFormData({ ...formdata, name: e.target.value })}
           className="form-input"
         />
         <input type="text" placeholder="Description"
           value={formdata.description}
-          onChange={e => setFormData({...formdata, description: e.target.value})}
+          onChange={e => setFormData({ ...formdata, description: e.target.value })}
           className="form-input"
         />
         <input type="text" placeholder="Category"
           value={formdata.category}
-          onChange={e => setFormData({...formdata, category: e.target.value})}
+          onChange={e => setFormData({ ...formdata, category: e.target.value })}
           className="form-input"
         />
         <input type="number" placeholder="Price"
           value={formdata.price}
-          onChange={e => setFormData({...formdata, price: e.target.value})}
+          onChange={e => setFormData({ ...formdata, price: e.target.value })}
           className="form-input"
         />
         <select
           value={formdata.isAvailable}
-          onChange={e => setFormData({...formdata, isAvailable: e.target.value})}
+          onChange={e => setFormData({ ...formdata, isAvailable: e.target.value })}
           className="form-input"
         >
           <option value="IN-STOCK">In Stock</option>
           <option value="OUT-STOCK">Out of Stock</option>
         </select>
         <input type="file"
-          onChange={e => setFormData({...formdata, image: e.target.files[0]})}
+          onChange={e => setFormData({ ...formdata, image: e.target.files[0] })}
           className="form-input file-input"
         />
         <button type="submit" className="submit-btn">Add Item</button>

@@ -2,7 +2,8 @@ const User = require("../Models/User");
 const bcrypt = require("bcrypt");
 const { generateAccessToken, generateRefreshToken } = require("../utlis/jwt");
 const jwt = require("jsonwebtoken")
-const transporter=require("../utlis/transporter")
+const transporter=require("../services/templates/emailservice")
+const registerTemplates=require("../services/templates/registerTemplate")
 
 
 exports.Register = async (req, res) => {
@@ -30,17 +31,18 @@ exports.Register = async (req, res) => {
 
     await record.save();
 
-// // (async () => {
-// //   const info = await transporter.sendMail({
-// //     from: '"Maddison Foo Koch" <maddison53@ethereal.email>',
-// //     to: "bar",
-// //     subject: "Hello ✔",
-// //     text: "Hello world?", // plain‑text body
-// //     html: "<b>Hello world?</b>", // HTML body
-// //   });
 
-//   console.log("Message sent:", info.messageId);
-// })();
+  const info = await transporter.sendMail({
+    from: '"priyanshukataria1208@gmail.com',
+    to: record.email,
+    subject: "Hello ✔",
+     // plain‑text body
+    text:registerTemplates(record.name,"Comit"),
+     // HTML body
+
+});
+ console.log("Message sent:", info.messageId)
+
     return res.status(201).json({
       status: 201,
       apiData: record,

@@ -6,7 +6,7 @@ import { AuthContext } from "./context/AuthContext";
 const Navbar = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const navigate = useNavigate();
-  const { accessToken, role, logout } = useContext(AuthContext);
+  const { accessToken, role, logout,name } = useContext(AuthContext);
 
   if (!accessToken) return null;
 
@@ -26,8 +26,9 @@ const Navbar = () => {
       <ul className="nav-links">
         {role === "customer" && (
           <>
+     <li className="profile-btn"id="homepagebtn"><Link to="/homepage"><i class="fas fa-house"></i></Link></li>
             <li id="foodtitle"><Link to="/menu">Menu</Link></li>
-            <li id="foodtitle"><Link to="/cartpage">Cart</Link></li>
+            <li id="foodtitle"><Link to="/cartpage">🛒 Cart</Link></li>
           </>
         )}
 {/* 
@@ -44,7 +45,7 @@ const Navbar = () => {
           onClick={() => setProfileOpen(!profileOpen)}
           id="logoutbtn"
         >
-          👤 {role}
+          👤 {name}
 
           {profileOpen && (
             <div className="profile-dropdown">

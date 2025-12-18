@@ -1,16 +1,22 @@
 import React, { useState } from "react";
-import toast from "react-hot-toast";
-import {
-  MDBInput,
-  MDBCol,
-  MDBBtn,
-  MDBIcon,
-  MDBRow,
-  MDBCheckbox,
-} from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
+import {
+  Theme,
+  Card,
+  Text,
+  TextField,
+  Button,
+  Flex,
+  Link
+} from "@radix-ui/themes";
+
+import "@radix-ui/themes/styles.css";
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const [formdata, setFormData] = useState({
     name: "",
     email: "",
@@ -18,25 +24,16 @@ const Register = () => {
     phone: "",
   });
 
-  const navigate = useNavigate();
-
-  // -----------------------
-  // 🔥 FIXED: Handle Change
-  // -----------------------
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     if (name === "phone") {
-      const numeric = value.replace(/\D/g, "");
-      setFormData({ ...formdata, [name]: numeric });
+      setFormData((p) => ({ ...p, phone: value.replace(/\D/g, "") }));
     } else {
-      setFormData({ ...formdata, [name]: value });
+      setFormData((p) => ({ ...p, [name]: value }));
     }
   };
 
-  // -----------------------
-  // 🔥 FIXED: Submit Handler
-  // -----------------------
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -44,108 +41,85 @@ const Register = () => {
       const res = await fetch("http://localhost:3000/api/v1/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: formdata.name, // 🔥 Backend ke according
-          password: formdata.password,
-        email:formdata.email}),
+        body: JSON.stringify(formdata),
       });
 
       const data = await res.json();
 
-      if (data.status === 201) {
-        toast.success("Successfully Registered");
-        navigate("/Login");
-      } else {
-        toast.error(data.message);
+      if (!res.ok) {
+        toast.error(data.message || "Registration failed");
+        return;
       }
-    } catch (err) {
-      toast.error("Server Error");
+
+      toast.success("Registration Successful 🎉");
+      navigate("/login");
+    } catch {
+      toast.error("Server error");
     }
   };
 
   return (
-    <div id="reg-wrapper">
-      <form id="reg-box" onSubmit={handleRegister}>
-        <h2 className="reg-title">✨ Registration Form</h2>
+    <Theme
+      appearance="dark"
+      accentColor="sky"
+      grayColor="sand"
+      radius="large"
+      panelBackground="translucent"
+    >
+      <div className="login-bg">
+        <Card size="4" className="login-card">
+          <form onSubmit={handleRegister}>
+            <Flex direction="column" gap="4">
+              <Text size="6" weight="bold" align="center">
+                Create Account
+              </Text>
 
-        <section className="reg-inputs">
-          <MDBInput
-            className="mb-3 reg-field"
-            type="text"
-            label="Username"
-            name="name"
-            value={formdata.name}
-            onChange={handleChange}
-            required
-          />
+              <TextField.Root
+                placeholder="Username"
+                name="name"
+                value={formdata.name}
+                onChange={handleChange}
+                required
+              />
 
-          <MDBInput
-            className="mb-3 reg-field"
-            type="email"
-            label="Email"
-            name="email"
-            value={formdata.email}
-            onChange={handleChange}
-            required
-          />
+              <TextField.Root
+                placeholder="Email"
+                type="email"
+                name="email"
+                value={formdata.email}
+                onChange={handleChange}
+                required
+              />
 
-          <MDBInput
-            className="mb-3 reg-field"
-            type="password"
-            label="Password"
-            name="password"
-            value={formdata.password}
-            maxLength={6}
-            onChange={handleChange}
-            required
-          />
+              <TextField.Root
+                placeholder="Password"
+                type="password"
+                name="password"
+                value={formdata.password}
+                onChange={handleChange}
+                required
+              />
 
-          <MDBInput
-            className="mb-3 reg-field"
-            type="number"
-            label="Phone Number"
-            name="phone"
-            value={formdata.phone}
-            onChange={handleChange}
-            required
-          />
-        </section>
+              <TextField.Root
+                placeholder="Phone Number"
+                name="phone"
+                value={formdata.phone}
+                onChange={handleChange}
+                required
+              />
 
-        <MDBRow className="mb-3">
-          <MDBCol className="d-flex justify-content-center">
-            <MDBCheckbox label="Remember me" defaultChecked />
-          </MDBCol>
-          <MDBCol>
-            <a href="/forget">Forgot password?</a>
-          </MDBCol>
-        </MDBRow>
+              <Button size="3" type="submit">
+                Sign Up
+              </Button>
 
-        <MDBBtn type="submit" className="reg-btn" block>
-          Sign Up
-        </MDBBtn>
-
-        <div className="text-center mt-3">
-          <p>
-            Already registered? <a href="/login">Login</a>
-          </p>
-          <p>Or sign up with:</p>
-
-          <div className="social-wrap">
-            <MDBBtn floating color="secondary" className="mx-1 social-btn">
-              <MDBIcon fab icon="facebook-f" />
-            </MDBBtn>
-            <MDBBtn floating color="secondary" className="mx-1 social-btn">
-              <MDBIcon fab icon="google" />
-            </MDBBtn>
-            <MDBBtn floating color="secondary" className="mx-1 social-btn">
-              <MDBIcon fab icon="twitter" />
-            </MDBBtn>
-            <MDBBtn floating color="secondary" className="mx-1 social-btn">
-              <MDBIcon fab icon="github" />
-            </MDBBtn>
-          </div>
-        </div>
-      </form>
-    </div>
+              <Text size="2" align="center" color="gray">
+                Already have an account? <Link href="/login">Login</Link>
+              </Text>
+            </Flex>
+          </form>
+        </Card>
+      </div>
+    </Theme>
   );
 };
 

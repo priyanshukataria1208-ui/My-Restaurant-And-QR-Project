@@ -1,18 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { UtensilsCrossed, UserPlus, LogIn, User, Sparkles } from "lucide-react";
-import {useDispatch} from"react-redux"
+import { useDispatch } from "react-redux"
 import { session } from "../Features/guestSlice";
-import { useParams,useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 const welcome = () => {
   const navigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
   console.log(useParams())
 
 
-  const [searchParams]=useSearchParams()
-const qrSlug=searchParams.get("qrSlug")
+  const [searchParams] = useSearchParams()
+  const qrSlug = searchParams.get("qrSlug")
   const handleContinueAsGuest = () => {
-      dispatch(session({deviceId : 'jfjdk' , qrSlug }))
+    dispatch(session({ deviceId: 'jfjdk', qrSlug }))
 
     localStorage.setItem("guestMode", "true");
     navigate("/homepage");
@@ -46,7 +46,7 @@ const qrSlug=searchParams.get("qrSlug")
         </div>
 
         {/* Action Buttons */}
-        <div className="space-y-5 mb-12">
+        <div className="flex flex-col gap-5 mb-8">
           <Link to="/Reg" className="btn-colorful group">
             <UserPlus className="w-5 h-5 group-hover:scale-125 transition" />
             Register
@@ -57,11 +57,19 @@ const qrSlug=searchParams.get("qrSlug")
             Login
           </Link>
 
-          <button onClick={handleContinueAsGuest} className="btn-glassy group">
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-2">
+            <span className="flex-1 h-px bg-white/20"></span>
+            <span className="text-xs text-white/60">OR</span>
+            <span className="flex-1 h-px bg-white/20"></span>
+          </div>
+
+          <button onClick={handleContinueAsGuest} className="btn-glassy group mt-2">
             <User className="w-5 h-5 group-hover:scale-125 transition" />
             Continue as Guest
           </button>
         </div>
+
 
         {/* Benefits */}
         <div className="glass-card animate-slideUp">

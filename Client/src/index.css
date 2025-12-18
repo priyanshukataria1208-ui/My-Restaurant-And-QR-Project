@@ -16,6 +16,16 @@
     font-size: 25px;
       
 }
+#homepagebtn{
+  height: 50px;
+width: 60px;
+margin-top: 16px;
+
+font-size: 2px;
+}
+.fa-house{
+  font-size: 25px;
+}
 #foodtitle{
     text-align: center;
     font-family:Arial, Helvetica, sans-serif;
@@ -37,7 +47,7 @@
 }
 
 #navbar ul li a {
-    color: rgb(240, 239, 239);
+    color: rgb(247, 243, 243);
     font-weight: bolder;
     font-size: 20px;
 
@@ -45,206 +55,22 @@
 }
 
 #navbar ul li a:hover {
-    color: goldenrod;
+    color: rgb(241, 179, 9);
 }
+
+
 /* ============================
    Registration Page Styling
    ============================ */
 
-#reg-wrapper {
-  width: 100%;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #4e54c8, #8f94fb);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 10px;
-}
 
-#reg-box {
-  width: 420px;
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 35px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-  animation: fadeIn 0.7s ease;
-}
-
-.reg-title {
-  text-align: center;
-  margin-bottom: 25px;
-  font-weight: 700;
-  color: #4e54c8;
-}
-
-.reg-inputs .reg-field input {
-  padding: 12px;
-  border-radius: 10px !important;
-  border: 2px solid #ddd;
-  font-size: 15px;
-  transition: 0.3s;
-}
-
-.reg-inputs .reg-field input:focus {
-  border-color: #4e54c8;
-  box-shadow: 0 0 10px rgba(78, 84, 200, 0.3);
-}
-
-.reg-btn {
-  background: #4e54c8 !important;
-  padding: 12px;
-  border-radius: 15px;
-  letter-spacing: 1px;
-  font-weight: 600;
-  transition: 0.3s ease;
-}
-
-.reg-btn:hover {
-  background: #6a6ffb !important;
-  transform: translateY(-2px);
-}
-
-.social-wrap {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.social-btn {
-  background-color: #4e54c8 !important;
-  color: white !important;
-  transition: 0.25s ease;
-}
-
-.social-btn:hover {
-  background-color: #6a6ffb !important;
-  transform: scale(1.1);
-}
-
-/* forgot link */
-#reg-box a {
-  color: #4e54c8;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-#reg-box a:hover {
-  text-decoration: underline;
-}
-
-/* fade effect */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-/* ------------------------------------------------------------------- */
-/* ----------- PREMIUM FLOATING ANIMATED BACKGROUND ----------- */
-#reg-wrapper {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* Multi-color animated gradient */
-  background: linear-gradient(
-    -45deg,
-    #cf7671,
-    #fad0c4,
-    #a1c4fd,
-    #0182be
-  );
-  background-size: 400% 400%;
-  animation: floatingBG 12s ease infinite;
-
-  padding: 20px;
-  font-family: 'Poppins', sans-serif;
-}
-
-/* Smooth floating gradient animation */
-@keyframes floatingBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-
-/* ------------ FORM BOX (Glass Effect) ------------- */
-#reg-box {
-  width: 420px;
-  padding: 35px;
-  border-radius: 18px;
-
-  /* TRUE GLASS */
-  background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-
-  /* Shadow */
-  box-shadow: 0 10px 35px rgba(0,0,0,0.25);
-
-  animation: popup 0.6s ease;
-}
-
-/* Popup animation */
-@keyframes popup {
-  from { transform: scale(0.85); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-/* ------------ TITLE ------------ */
-.reg-title {
-  text-align: center;
-  color: #ffffff;
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 25px;
-  text-shadow: 0px 2px 4px rgba(0,0,0,0.4);
-}
-
-/* ------------ INPUTS ------------ */
-.reg-field input {
-  border-radius: 10px !important;
-  background: rgba(255,255,255,0.35);
-  color: white !important;
-  border: 1px solid rgba(255,255,255,0.4);
-  transition: 0.2s ease;
-}
-
-.reg-field input::placeholder {
-  color: #e8e8e8 !important;
-}
-
-.reg-field input:focus {
-  transform: scale(1.03);
-  box-shadow: 0 0 10px rgba(255,255,255,0.7);
-}
-
-/* ------------ BUTTON ------------ */
-.reg-btn {
-  background: #ff4b2b !important;
-  border-radius: 10px;
-  padding: 12px;
-  font-weight: 600;
-  color: white !important;
-  transition: 0.3s ease;
-}
-
-.reg-btn:hover {
-  transform: scale(1.07);
-  background: #ff2e0e !important;
-}
 
 /* ------------ SOCIAL BUTTONS ------------ */
 .social-btn {
   transition: 0.3s ease;
   backdrop-filter: blur(5px);
   border-radius: 100%;
+  
 }
 
 .social-btn:hover {
@@ -340,6 +166,7 @@
   color: #e5e7eb;
   max-width: 260px;
   margin: 12px auto;
+  gap: 10px;
 }
 
 /* Buttons */
@@ -350,6 +177,7 @@
   border-radius: 14px;
   font-weight: 700;
   text-align: center;
+  
   color: white;
   display: flex;
   gap: 10px;
@@ -776,17 +604,18 @@ body {
   display: flex;
   align-items: center;
   gap: 30px;
+  color: #000;
 }
 
 .nav-links li a {
   text-decoration: none;
-  color: #e5e5e5;
+  color: #140101;
   font-size: 15px;
   transition: 0.3s;
 }
 
 .nav-links li a:hover {
-  color: #ff9f1c;
+  color: #0c0700;
 }
 
 /* PROFILE */
@@ -952,7 +781,7 @@ body {
 }
 /* -----------------------------Admindash */
 .admin-page {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -984,7 +813,7 @@ body {
 
 /* Cards Container */
 .admin-cards {
-  display: flex;
+  display: grid;
   gap: 25px;
   flex-wrap: wrap;
   justify-content: center;

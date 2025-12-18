@@ -36,6 +36,7 @@ const Getuser = require("./Router/userroute")
 const menuroute=require("./Router/Menuroute")
 const Productroute=require("./Router/Products")
 const Cardroute=require("./Router/Cartroute")
+const Coupanroute=require("./Router/Coupenroute")
 
 app.use("/api/v1", Tableroute)
 app.use('/api/v1', SessionRoutes)
@@ -43,6 +44,8 @@ app.use("/api/v1", Getuser)
 app.use("/api/v1",menuroute)
 app.use("/api/v1",Productroute)
 app.use("/api/v1",Cardroute)
+app.use("/api/v1",Coupanroute)
+
 
 
 // Protected Route Example

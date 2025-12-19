@@ -4,10 +4,10 @@ import {
   ArrowRight,
   Star,
   Clock,
-  Award,
-  Flame
+  Award
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+
 
 
 const Homepage = () => {
@@ -41,18 +41,22 @@ const Homepage = () => {
             </h1>
 
             <p>
-              Enjoy fresh, healthy, and delicious vegetarian dishes crafted by top chefs.
-              Delivered hot & fast — straight to your table.
+              Enjoy fresh, healthy, and delicious vegetarian dishes crafted by
+              top chefs. Delivered hot & fast — straight to your table.
             </p>
 
             <div className="features">
-              <Feature icon={<Clock />} label="Fast Delivery" />
-              <Feature icon={<Award />} label="Premium Quality" />
-              <Feature icon={<Utensils />} label="100% Vegetarian" />
+              <Feature icon={<Clock size={16} />} label="Fast Delivery" />
+              <Feature icon={<Award size={16} />} label="Premium Quality" />
+              <Feature icon={<Utensils size={16} />} label="100% Vegetarian" />
             </div>
 
             <div className="hero-buttons">
-              <button className="btn-primary" onClick={() => navigate("/menu")}>Explore Menu <ArrowRight />
+              <button
+                className="btn-primary"
+                onClick={() => navigate("/menu")}
+              >
+                Explore Menu <ArrowRight size={18} />
               </button>
               <button className="btn-outline">Reserve Table</button>
             </div>
@@ -66,9 +70,25 @@ const Homepage = () => {
 
           {/* RIGHT */}
           <div className="hero-right slide-up">
-            <FoodCard />
-            <FoodCard orange />
-            <div className="offer-pill">Free Delivery Above ₹500</div>
+            <div className="food-card">
+              <img
+                src="hero.png"
+                alt="Delicious Food"
+                style={{ width: "220px" }}
+              />
+            </div>
+
+            <div className="food-card orange">
+              <img
+                src="kajukatali.jpg"
+                alt="Veg Burger"
+                style={{ width: "200px" }}
+              />
+            </div>
+
+            <div className="offer-pill">
+              Free Delivery Above ₹500
+            </div>
           </div>
 
         </div>
@@ -80,8 +100,8 @@ const Homepage = () => {
 
         <div className="dish-grid">
           <DishCard
-            title="Starbucks"
-            img=".jpeg"
+            title="Kaju Katali"
+            img="kajukatali.jpg"
             active={clicked}
             onOrder={handleOrder}
           />
@@ -94,6 +114,36 @@ const Homepage = () => {
           <DishCard
             title="Masala Dosa"
             img="Masladosa.jpeg"
+            active={clicked}
+            onOrder={handleOrder}
+          />
+           <DishCard
+            title="Rasgula"
+            img="rasgula.jpg"
+            active={clicked}
+            onOrder={handleOrder}
+          />
+           <DishCard
+            title="Halwa"
+            img="halwa.jpg"
+            active={clicked}
+            onOrder={handleOrder}
+          />
+           <DishCard
+            title="Cake"
+            img="cake.jpg"
+            active={clicked}
+            onOrder={handleOrder}
+          />
+           <DishCard
+            title="Idili"
+            img="idili.jpg"
+            active={clicked}
+            onOrder={handleOrder}
+          />
+           <DishCard
+            title="Pastery"
+            img="pastery.jpg"
             active={clicked}
             onOrder={handleOrder}
           />
@@ -116,12 +166,6 @@ const Stat = ({ number, label }) => (
   <div className="stat">
     <h3>{number}</h3>
     <p>{label}</p>
-  </div>
-);
-
-const FoodCard = ({ orange }) => (
-  <div className={`food-card ${orange ? "orange" : ""}`}>
-    <Flame size={60} />
   </div>
 );
 

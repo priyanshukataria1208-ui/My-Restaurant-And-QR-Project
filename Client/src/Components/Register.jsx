@@ -52,7 +52,7 @@ const Register = () => {
       }
 
       toast.success("Registration Successful 🎉");
-      navigate("/login");
+      navigate("/Login");
     } catch {
       toast.error("Server error");
     }

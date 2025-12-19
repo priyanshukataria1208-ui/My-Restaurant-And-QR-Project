@@ -49,7 +49,7 @@ const Login = () => {
       login(data.token, data.user.role, data.user.id);
       toast.success("Login Successful");
 
-      navigate(data.user.role === "admin" ? "/admindash" : "/homepage");
+      navigate(data.user.role === "admin" ? "/admindash" : "/");
     } catch {
       toast.error("Server error");
     }

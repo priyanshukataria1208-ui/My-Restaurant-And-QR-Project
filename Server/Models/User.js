@@ -38,5 +38,8 @@ accountTypes : {
     enum : ['REGISTERED' , 'GUEST'],
     default : "REGISTERED"
   },
+  resetPasswordToken: String,
+resetPasswordExpire: Date
+
 })
 module.exports=mongoose.model("User",UserSchema)

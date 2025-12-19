@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
     if (UserId) setUseId(UserId)
     if (token) setAccessToken(token);
     if (Role) setRole(Role)
+    
 
   }, []);
 

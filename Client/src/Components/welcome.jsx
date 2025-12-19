@@ -15,7 +15,7 @@ const welcome = () => {
     dispatch(session({ deviceId: 'jfjdk', qrSlug }))
 
     localStorage.setItem("guestMode", "true");
-    navigate("/homepage");
+    navigate("/");
   };
 
   return (

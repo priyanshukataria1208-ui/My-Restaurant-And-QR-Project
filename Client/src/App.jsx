@@ -15,6 +15,8 @@ import Addfooditem from './components/Addfooditem';
 import Adminfoodproduct from './components/Adminfoodproduct';
 import Footer from './components/Footer';
 import Cartpage from './components/Cartpage';
+import Forgetpassword from './components/Forgetpassword';
+import Resetpassword from './components/Resetpassword';
 
 const App = () => {
   return (
@@ -36,15 +38,18 @@ const MainApp = () => {
       <Routes>
         <Route path="/Reg" element={<Register />} />
         <Route path="/Login" element={<Login />} />
-        <Route path="/" element={<UserProduct />} />
+        <Route path="/usertable" element={<UserProduct />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/table" element={<TableData />} />
         <Route path="/menu" element={<Menu />} />
-        <Route path="/homepage" element={<Homepage />} />
+        <Route path="/" element={<Homepage />} />
         <Route path="/admindash" element={<Admindashbord />} />
         <Route path='/admininsertform' element={<Addfooditem />} />
         <Route path='/adminfoodproduct' element={<Adminfoodproduct />} />
         <Route path='/cartpage' element={<Cartpage />} />
+        <Route path="/forget" element={<Forgetpassword />} />
+<Route path="/reset-password/:token" element={<Resetpassword />} />
+
       </Routes>
 
       {/* Footer only for non-admin users */}

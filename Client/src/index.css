@@ -586,9 +586,9 @@ body {
   align-items: center;
   justify-content: space-between;
 
-  background: rgba(15, 15, 15, 0.6);
+   background: radial-gradient(circle at top, #121212, #0b0b0b);
   backdrop-filter: blur(15px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid rgb(9, 190, 235);
 }
 
 /* LOGO */

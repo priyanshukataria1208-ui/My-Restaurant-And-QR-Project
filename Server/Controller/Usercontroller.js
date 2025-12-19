@@ -4,6 +4,8 @@ const { generateAccessToken, generateRefreshToken } = require("../utlis/jwt");
 const jwt = require("jsonwebtoken")
 const transporter=require("../services/templates/emailservice")
 const registerTemplates=require("../services/templates/registerTemplate")
+const crypto=require("crypto");
+const resertemplate = require("../services/templates/resettemplate");
 
 
 exports.Register = async (req, res) => {
@@ -113,6 +115,98 @@ exports.Login = async (req, res) => {
 
 
 };
+exports.ForgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    }
+
+    // generate token
+    const resetToken = crypto.randomBytes(20).toString("hex");
+
+    user.resetPasswordToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    user.resetPasswordExpire = Date.now() + 15 * 60 * 1000; // 15 min
+
+    await user.save();
+
+    const resetLink = `http://localhost:5173/reset-password/${resetToken}`;
+
+    // email send
+     const info = await transporter.sendMail({
+    from: '"priyanshukataria1208@gmail.com',
+    to: user.email,
+    subject: "Hello ✔",
+     // plain‑text body
+ html: resertemplate(user.name, resetLink)
+     // HTML body
+
+});
+ console.log("Message sent:", info.messageId)
+
+    return res.status(200).json({
+      success: true,
+      message: "Reset password link sent to email"
+    });
+
+  } catch (error) {
+    console.log("FORGOT ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
+  }
+};
+exports.ResetPassword = async (req, res) => {
+  try {
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(req.params.token)
+      .digest("hex");
+
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpire: { $gt: Date.now() }
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Token invalid or expired"
+      });
+    }
+
+    const hashedPass = await bcrypt.hash(req.body.password, 10);
+
+    user.password = hashedPass;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Password reset successful"
+    });
+
+  } catch (error) {
+    console.log("RESET ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
+  }
+};
+
 
 
 // 

@@ -1,0 +1,90 @@
+const express = require("express");
+const cors = require("cors");
+const app = express();
+require('events').EventEmitter.defaultMaxListeners = 20; 
+
+// JSON Parser
+app.use(express.json());
+
+// CORS
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "PUT", "POST", "DELETE"],
+    credentials: true,
+  })
+);
+
+// DB Connect (Only once!)
+const dbconnect = require("./config/database");
+dbconnect();
+
+// Middleware
+const verifytoken = require("./middleware/verifytoken");
+const { default: checkRole } = require("./middleware/checkRole");
+
+// Public routes
+const Frontendroute = require("./Router/Frontendroute");
+app.use("/api/v1", Frontendroute);
+
+
+const Tableroute = require("./Router/tablerouter");
+const { error } = require("console");
+
+const SessionRoutes = require("./Router/sessionroute")
+const Getuser = require("./Router/userroute")
+const menuroute=require("./Router/Menuroute")
+const Productroute=require("./Router/Products")
+const Cardroute=require("./Router/Cartroute")
+const Coupanroute=require("./Router/Coupenroute")
+const Orderroute=require("./Router/Orderroute")
+
+app.use("/api/v1", Tableroute)
+app.use('/api/v1', SessionRoutes)
+app.use("/api/v1", Getuser)
+app.use("/api/v1",menuroute)
+app.use("/api/v1",Productroute)
+app.use("/api/v1",Cardroute)
+app.use("/api/v1",Coupanroute)
+app.use("/api/v1",Orderroute)
+
+
+
+// Protected Route Example
+app.get(
+  "/menu",
+  verifytoken,
+  checkRole(["customer", "admin"]),
+  (req, res) => {
+    res.json({ message: "Menu Loaded Successfully (Protected Route)" });
+  }
+);
+
+app.use((err, req, res, next) => {
+  if (err) {
+    res.status(err.status || 500).json({
+      message: err?.message || "server error"
+    })
+  }
+})
+
+// Static Files
+app.use(express.static("public"));
+
+// Start Server (Only once!)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+
+
+
+
+
+
+
+
+
+
+

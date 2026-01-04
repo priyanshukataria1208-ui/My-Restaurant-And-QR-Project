@@ -1,86 +1,118 @@
 const mongoose = require("mongoose");
 
-const orderSchema = mongoose.Schema({
-  orderNumber: {
-    type: String,
-    unique: true,
-  },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  },
-  sessionToken: {
-    type: String,
-  },
-  items: [
-    {
-      menuItemId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Menu',
-      },
-      name: {
-        type: String,
-      },
-      price: {
-        type: Number,
-      },
-      quantity: {
-        type: Number,
-      },
-      subTotal: {
-        type: Number,
-        required: true,
-      },
+const orderSchema = new mongoose.Schema(
+  {
+    orderNumber: {
+      type: String,
+      required: true,
+      unique: true,
     },
-  ],
-  subTotal: {
-    type: Number,
-  },
-  discountAmount: {
-    type: Number,
-  },
-  coupanCode: {
-    type: String,
-  },
-  finalAmount: {
-    type: Number,
-  },
-  tableNumber: {
-    type: Number,
-  },
-  customerEmail: {
-    type: String,
-  },
-  customerName: {
-    type: String,
-  },
-  notes: {
-    type: String,
-  },
-paymentMethod: {
-    type: String,
-    enum: ['cash', 'razorpay'],
-  },
-  paymentStatus: {
-    type: String,
-    enum: ['pending', 'failed', 'success', 'refund'],
-  },
-  orderStatus: {
-    type: String,
-    enum: ['pending', 'preparing', 'ready', 'served'],
-    default: 'pending',
-  },
-  razorPayOrderId: {
-    type: String,
-  },
-  razorPayPaymentId: {
-    type: String,
-  },
-  razorPaySignature: {
-    type: String,
-  },
-});
 
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
 
+    sessionToken: {
+      type: String,
+    },
 
-module.exports = mongoose.model("Order", orderSchema)
+    items: [
+      {
+        menuItemId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Menu",
+          required: true,
+        },
+        name: {
+          type: String,
+          required: true,
+        },
+        price: {
+          type: Number,
+          required: true,
+          min: 0,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+          min: 1,
+        },
+        subTotal: {
+          type: Number,
+          required: true,
+          min: 0,
+        },
+      },
+    ],
+
+    subTotal: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+
+    discountAmount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    coupanCode: {
+      type: String,
+    },
+
+    finalAmount: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+
+    tableNumber: {
+      type: Number,
+    },
+
+    customerEmail: {
+      type: String,
+      trim: true,
+    },
+
+    customerName: {
+      type: String,
+      trim: true,
+    },
+
+    notes: {
+      type: String,
+      trim: true,
+    },
+
+    paymentMethod: {
+      type: String,
+      enum: ["cash", "razorpay"],
+      required: true,
+    },
+
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "failed", "success", "refund"],
+      default: "pending",
+    },
+
+    orderStatus: {
+      type: String,
+      enum: ["pending", "preparing", "ready", "served"],
+      default: "pending",
+    },
+
+    razorPayOrderId: {type:String},
+    razorPayPaymentId: {type:String},
+    razorPaySignature: {type:String},
+  },
+  {
+    timestamps: true, // ✅ createdAt & updatedAt
+  }
+);
+
+module.exports = mongoose.model("Order", orderSchema);

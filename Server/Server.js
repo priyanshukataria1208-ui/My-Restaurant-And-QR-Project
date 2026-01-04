@@ -38,6 +38,7 @@ const Productroute=require("./Router/Products")
 const Cardroute=require("./Router/Cartroute")
 const Coupanroute=require("./Router/Coupenroute")
 const Orderroute=require("./Router/Orderroute")
+const Admin=require("./Router/Amdmin")
 
 app.use("/api/v1", Tableroute)
 app.use('/api/v1', SessionRoutes)
@@ -47,6 +48,7 @@ app.use("/api/v1",Productroute)
 app.use("/api/v1",Cardroute)
 app.use("/api/v1",Coupanroute)
 app.use("/api/v1",Orderroute)
+app.use("/api/v1",Admin)
 
 
 
@@ -70,7 +72,16 @@ app.use((err, req, res, next) => {
 
 // Static Files
 app.use(express.static("public"));
-
+app.get("/api/v1/stats", (req, res) => {
+  // Random numbers generate kar rahe demo ke liye
+  const statsData = {
+    orders: Math.floor(Math.random() * 2000),      // 0-1999
+    customers: Math.floor(Math.random() * 10000),  // 0-9999
+    menu: Math.floor(Math.random() * 600),         // 0-599
+    income: Math.floor(Math.random() * 20000)      // 0-19999
+  };
+  res.json(statsData);
+});
 // Start Server (Only once!)
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

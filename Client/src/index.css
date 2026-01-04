@@ -553,8 +553,8 @@ button {
 }
 
 /* Buttons */
-.update-btn {
-  background: #4e4e4e;
+#update-btn {
+  background: #058def;
   border: none;
   padding: 8px 14px;
   margin-right: 8px;
@@ -563,8 +563,8 @@ button {
   color: white;
 }
 
-.delete-btn {
-  background: #9b0000;
+#delete-btn {
+  background: #ff0000;
   border: none;
   padding: 8px 14px;
   border-radius: 6px;
@@ -601,6 +601,104 @@ button {
   color: white;
   cursor: pointer;
 }
+.tables-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px;
+  margin-top: 20px;
+}
+
+.table-card {
+  background: linear-gradient(180deg, #0b1220, #020617);
+  border-radius: 16px;
+  padding: 16px;
+  color: #e5e7eb;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.table-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table-card-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.status.active {
+  background: #16a34a;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.qr-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 18px 0;
+}
+
+.qr-wrapper img {
+  width: 160px;
+  height: 160px;
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.table-info {
+  font-size: 14px;
+  color: #cbd5f5;
+}
+
+.qr-link {
+  color: #60a5fa;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 6px;
+}
+
+.table-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
+#update-btn {
+  background: #2563eb;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #dc2626;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+#download-btn {
+  background: #16a34a;
+  border: none;
+  padding: 8px 14px;
+  
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+#update-btn:hover { background-color: #1d4ed8; }
+#delete-btn:hover { background-color: #b91c1c; }
+#download-btn:hover { background-color: #15803d; }
 
 /* --------------------------Homepage */
 .landing-bg {

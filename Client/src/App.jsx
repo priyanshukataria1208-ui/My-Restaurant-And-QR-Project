@@ -17,6 +17,7 @@ import Footer from './components/Footer';
 import Cartpage from './components/Cartpage';
 import Forgetpassword from './components/Forgetpassword';
 import Resetpassword from './components/Resetpassword';
+import Checkout from './components/checkout';
 
 const App = () => {
   return (
@@ -48,6 +49,7 @@ const MainApp = () => {
         <Route path='/adminfoodproduct' element={<Adminfoodproduct />} />
         <Route path='/cartpage' element={<Cartpage />} />
         <Route path="/forget" element={<Forgetpassword />} />
+        <Route path='/checkout' element={<Checkout/>}/>
 <Route path="/reset-password/:token" element={<Resetpassword />} />
 
       </Routes>

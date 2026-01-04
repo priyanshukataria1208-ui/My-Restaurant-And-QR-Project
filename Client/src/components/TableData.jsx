@@ -7,7 +7,7 @@ const API = "http://localhost:3000/api/v1/table";
 
 const TableData = () => {
   const { accessToken, role } = useContext(AuthContext);
-  
+
 
   const [tables, setTables] = useState([]);
   const [editTable, setEditTable] = useState(null);
@@ -92,54 +92,102 @@ const TableData = () => {
           </form>
         )}
 
-        <table className="styled-table">
-          <thead>
-            <tr>
-              <th>Table Number</th>
-              <th>Capacity</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+        <div className="tables-grid">
+          {tables.length > 0 ? (
+            tables.map((table) => (
+              <div className="table-card" key={table._id}>
 
-          <tbody>
-            {tables.length > 0 ? (
-              tables.map((table) => (
-                <tr key={table._id}>
-                  <td>{table.tableNumber}</td>
-                  <td>{table.capacity}</td>
-                  <td>
+                {/* HEADER */}
+                <div className="table-card-header">
+                  <h3>Table #{table.tableNumber}</h3>
+                  <span className="status active">Active</span>
+                </div>
+
+                {/* QR */}
+                <div className="qr-wrapper">
+                  {table.qrImage ? (
+                    <img
+                      src={table.qrImage}
+                      alt={`QR Table ${table.tableNumber}`}
+                    />
+                  ) : (
+                    <span>No QR</span>
+                  )}
+                </div>
+
+                {/* INFO */}
+                <div className="table-info">
+                  <p><strong>ID:</strong> {table.qrSlug}</p>
+                  <p><strong>Capacity:</strong> {table.capacity}</p>
+
+                  <a
+                    href={table.qrCodeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="qr-link"
+                  >
+                    QR URL
+                  </a>
+                </div>
+
+
+
+
+
+                {/* ACTIONS */}
+                <div className="table-actions">
+
+                  {/* DOWNLOAD → ADMIN + USER */}
+                  {table.qrImage && (
                     <button
-                      className="update-btn"
+                      id="download-btn"
                       onClick={() => {
-                        setEditTable(table);
-                        setTableData({
-                          tableNumber: table.tableNumber,
-                          capacity: table.capacity,
-                        });
+                        const link = document.createElement("a");
+                        link.href = table.qrImage;
+                        link.download = `table-${table.tableNumber}.png`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
                       }}
                     >
-                      Update
+                      Download QR
                     </button>
+                  )}
 
-                    {role === "admin" ? (
+                  {/* ADMIN ONLY ACTIONS */}
+                  {role === "admin" && (
+                    <>
                       <button
-                        className="delete-btn"
+                        id="update-btn"
+                        onClick={() => {
+                          setEditTable(table);
+                          setTableData({
+                            tableNumber: table.tableNumber,
+                            capacity: table.capacity,
+                          });
+                        }}
+                      >
+                        Update
+                      </button>
+
+                      <button
+                        id="delete-btn"
                         onClick={() => deleteTable(table._id)}
                       >
                         Delete
                       </button>
+                    </>
+                  )}
 
-                    ):null}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="3">No tables found</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+                </div>
+
+              </div>
+            ))
+          ) : (
+            <p>No tables found</p>
+          )}
+        </div>
+
       </div>
     </div>
   );

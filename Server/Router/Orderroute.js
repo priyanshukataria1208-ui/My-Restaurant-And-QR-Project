@@ -4,6 +4,8 @@ const checkGuestandUser = require("../middleware/checkGuestandUser")
 
 
 router.post("/order",checkGuestandUser,OrderC.createOrder)
+router.post("/verify/payment",checkGuestandUser,OrderC.verifypayment)
+router.get("/order",checkGuestandUser,OrderC.getorder)
 
 
 

@@ -1,64 +1,117 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '../lib/api';
-import { useEffect } from 'react';
+import { useToast } from './context/ToastProvider';
+
+
 function Checkout() {
+  const toast = useToast();
+  const [loading, setLoading] = useState(false);
+  const [step, setStep] = useState('idle');
+
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.async = true;
     document.body.appendChild(script);
   }, []);
 
   const payload = {
-    coupanCode: 'WEEKEND20',
-    tableNumber: 1,
-    customerEmail: 'ritesh@gmail.com',
-    customerName: 'ritesh',
-    customerPhone: 3423432,
-    notes: 'add extra sugar',
-    paymentMethod: 'razorpay',
+    coupanCode: "Food 0",
+    tableNumber: "3",
+    CustomerName: "Priyanshu",
+    CustomerEmail: "priyanshukataria1208@gmail.com",
+    CustomerPhone: "38292",
+    paymentMethod: "razorpay",
   };
-  const paymethod = 'razorpay';
-  console.log(payload);
+
   const handlePlaceOrder = async () => {
     try {
-      const result = await api.post('v1/orders', payload);
-      console.log(result);
-      const options = {
-        key: result.data.razorPayOrder.key,
-        amount: result.data.razorPayOrder.amount,
-        currency: 'INR',
-        name: 'SavoryBites',
-        description: 'Test Transaction',
-        handler: function (response) {
-          console.log(response);
-          alert(`Payment ID: ${response.razorpay_payment_id}`);
+      setLoading(true);
+      setStep('creating');
+
+      const result = await api.post('v1/order', payload);
+      const { order, razorPayOrder, key } = result.data;
+
+      setStep('paying');
+
+      new window.Razorpay({
+        key,
+        order_id: razorPayOrder.id,
+        amount: razorPayOrder.amount,
+        currency: razorPayOrder.currency,
+        name: "SavoryBites",
+
+        handler: async (res) => {
+          await api.post('v1/verify/payment', {
+            paymentId: res.razorpay_payment_id,
+            razorPayOrderId: res.razorpay_order_id,
+            signature: res.razorpay_signature,
+          });
+
+          setStep('success');
+          setLoading(false);
+          toast.success("🎉 Order Confirmed");
         },
+
+        modal: {
+          ondismiss: () => {
+            toast.info("Payment Cancelled");
+            setLoading(false);
+            setStep('idle');
+          },
+        },
+
         prefill: {
-          name: result.data.order.customerName,
-          email: result.data.order.customerEmail,
-          contact: result.data.order.customerPhone,
+          name: order.CustomerName,
+          email: order.CustomerEmail,
+          contact: order.CustomerPhone,
         },
-        theme: {
-          color: '#1e2939',
-        },
-      };
-      console.log(window);
-      const razorpay = new window.Razorpay(options);
-      console.log(razorpay);
-      razorpay.open();
-    } catch (error) {}
+      }).open();
+
+    } catch {
+      toast.error("Payment Failed");
+      setLoading(false);
+      setStep('idle');
+    }
   };
+
   return (
-    <div>
-      <h1>Razor pay </h1>
-      <button
-        onClick={handlePlaceOrder}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-800/50 border border-gray-700/50 hover:bg-gray-800/70 transition-colors"
-      >
-        Pay and Place Order
-      </button>
+    <div className="checkout-bg">
+      <div className={`checkout-glass ${step === 'success' ? 'success' : ''}`}>
+
+        {step !== 'success' ? (
+          <>
+            <h2>⚡ Smart Checkout</h2>
+
+            <div className="progress-bar">
+              <span className={step !== 'idle' ? 'fill' : ''}></span>
+            </div>
+
+            <div className="order-info">
+              <p><b>Name</b> Priyanshu</p>
+              <p><b>Table</b> #3</p>
+              <p><b>Payment</b> Razorpay</p>
+            </div>
+
+            <button
+              disabled={loading}
+              onClick={handlePlaceOrder}
+              className={`pay-btn ${loading ? 'loading pulse' : 'pulse'}`}
+            >
+              {loading ? 'Processing...' : 'Pay Securely'}
+            </button>
+          </>
+        ) : (
+          <div className="success-zone">
+            <div className="checkmark">✓</div>
+            <h3>Order Placed</h3>
+            <p>Food is on the way 🍔</p>
+            <div className="confetti"></div>
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }
+
 export default Checkout;

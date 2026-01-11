@@ -46,13 +46,28 @@ const TableData = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put(`${API}/${editTable._id}`, tableData, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
 
-      setTables(tables.map((t) => (t._id === editTable._id ? res.data : t)));
-      setEditTable(null);
-      setTableData({ tableNumber: "", capacity: "" });
+      if (editTable) {
+       const res = await axios.put(`${API}/${editTable._id}`, tableData, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+
+        setTables(tables.map((t) => (t._id === editTable._id ? res.data : t)));
+        setEditTable(null);
+        setTableData({ tableNumber: "", capacity: "" });
+      }
+      else {
+       const res = await axios.post(API, tableData, {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+        setTables([res.data.data, ...tables])
+
+        setEditTable(null);
+        setTableData({
+          tableNumber: "",
+          capacity: ""
+        })
+      }
     } catch (err) {
       console.error(err);
     }
@@ -63,33 +78,39 @@ const TableData = () => {
       <div className="table-container">
         <h2 className="table-title">🍽 Table Management Dashboard</h2>
 
-        {editTable && (
-          <form className="table-edit-form" onSubmit={handleUpdate}>
-            <div>
-              <input
-                type="text"
-                placeholder="Table Number"
-                value={tableData.tableNumber}
-                onChange={(e) =>
-                  setTableData({ ...tableData, tableNumber: e.target.value })
-                }
-              />
-              <input
-                type="text"
-                placeholder="Capacity"
-                value={tableData.capacity}
-                onChange={(e) =>
-                  setTableData({ ...tableData, capacity: e.target.value })
-                }
-              />
-            </div>
-            <div className="btn-group">
-              <button className="update-btn">Save</button>
-              <button className="cancel-btn" onClick={() => setEditTable(null)}>
-                Cancel
-              </button>
-            </div>
+
+          {role === "admin" && (
+                    <>
+                      <button
+                        id="update-btn"
+                        onClick={() => {
+                          setEditTable(null);
+                          setTableData({
+                            tableNumber: "",
+                            capacity: "",
+                          });
+                        }}
+                      >
+                        Add Table
+                      </button> </> )}
+
+        {(editTable!==null||role==="admin") && (
+          <form onSubmit={handleUpdate} style={{color:"white"}}>
+            <input
+              type="text"
+              placeholder="Table Number"
+              value={tableData.tableNumber}
+              onChange={(e) => setTableData({ ...tableData, tableNumber: e.target.value })}
+            />
+            <input
+              type="text"
+              placeholder="Capacity"
+              value={tableData.capacity}
+              onChange={(e) => setTableData({ ...tableData, capacity: e.target.value })}
+            />
+            <button>{editTable ? "Save" : "Add Table"}</button>
           </form>
+
         )}
 
         <div className="tables-grid">
@@ -117,8 +138,8 @@ const TableData = () => {
 
                 {/* INFO */}
                 <div className="table-info">
-                  <p><strong>ID:</strong> {table.qrSlug}</p>
-                  <p><strong>Capacity:</strong> {table.capacity}</p>
+                  <p style={{color:"white"}}><strong>ID:</strong> {table.qrSlug}</p>
+                  <p style={{color:"white"}}><strong>Capacity:</strong> {table.capacity}</p>
 
                   <a
                     href={table.qrCodeUrl}
@@ -176,6 +197,9 @@ const TableData = () => {
                       >
                         Delete
                       </button>
+                      
+
+
                     </>
                   )}
 

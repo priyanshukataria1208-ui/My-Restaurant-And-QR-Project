@@ -1,35 +1,36 @@
-import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react'
+import api from '../lib/api'
 
-import api from "../../lib/api";
+const Order = () => {
 
-const statusColor = {
+
+
+  const statusColor = {
   pending: "bg-yellow-500",
   confirmed: "bg-green-600",
   cancelled: "bg-red-600",
 };
+  const [orders,setOrders]=useState([])
+  const [loading,setLoading]=useState(true)
 
-const Recentorders = () => {
 
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
+  useEffect(()=>{
+    fetchorders()
+  },[])
 
-  const fetchOrders = async () => {
+  const fetchorders=async()=>{
     try {
-      const res = await api.get("v1/order");
-      console.log(res.data)
-      setOrders(res.data.orders || []);
-    } catch (err) {
-      console.log(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+      const res=await api.get("v1/order");
 
+      setOrders(res.data.orders)
+    } catch (error) {
+      console.log(error.message)
+    }
+    finally{setLoading(false)}
+  }
+
+  
   if (loading) {
     return <p className="text-slate-400">Loading orders...</p>;
   }
@@ -38,7 +39,8 @@ const Recentorders = () => {
     return <p className="text-slate-400">No recent orders found</p>;
   }
 
-  return (
+
+    return (
     <div className="bg-slate-800 p-5 rounded-xl shadow-lg">
       <h4 className="text-lg font-semibold mb-4 text-white">
         Recent Orders
@@ -96,6 +98,7 @@ const Recentorders = () => {
       </div>
     </div>
   );
-};
+  
+}
 
-export default Recentorders;
+export default Order

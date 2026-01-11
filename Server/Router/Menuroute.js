@@ -6,4 +6,5 @@ router.post("/menu",upload.single('image'),MenuC.createMenu)
 router.get("/menu",verifyToken,MenuC.getcategory)
 
 
+
 module.exports=router

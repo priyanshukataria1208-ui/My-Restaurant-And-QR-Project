@@ -25,6 +25,9 @@ const Menu = () => {
     }
   };
 
+  useEffect(()=>{
+    window.menuFoods=foods
+  },[foods])
   useEffect(() => {
     fetchFoods();
   }, []);

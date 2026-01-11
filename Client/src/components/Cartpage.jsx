@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -106,150 +107,146 @@ const Cartpage = () => {
   const totalAmount = cart.totalCartPrice;
   const finalAmount = totalAmount - discount;
 
-  return (
-    <div>
-      <section className="h-100 gradient-custom">
-        <div className="container py-5">
-          <div className="row d-flex justify-content-center my-4">
-            <h2>🛒 Your Cart</h2>
+return (
+  <div className="min-h-screen bg-slate-900 text-white p-4 md:p-8">
+    <h2 className="text-2xl font-bold mb-6">🛒 Your Cart</h2>
 
-            {/* LEFT: Cart Items */}
-            <div className="col-md-8">
-              <div className="card mb-4" style={{ backgroundColor: "#1f1f1f" }}>
-                <div className="card-header py-3">
-                  <h5 className="mb-0" style={{ color: "white" }}>
-                    Cart - {cart.items.length} items
-                  </h5>
-                </div>
-                <div className="card-body" style={{ color: "white" }}>
-                  {cart.items.map((item) => (
-                    <div className="row mb-4" key={item.menuItemId._id}>
-                      <div className="col-lg-3 col-md-12 mb-4 mb-lg-0">
-                        <div className="bg-image hover-overlay hover-zoom ripple rounded">
-                          <img
-                            src={item.menuItemId.image || "/default-food.png"}
-                            alt={item.menuItemId.name}
-                            className="w-100"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-lg-5 col-md-6 mb-4 mb-lg-0">
-                        <p><strong>{item.menuItemId.name}</strong></p>
-                        <p>{item.menuItemId.description || "Delicious item"}</p>
-                        <button
-                          className="btn btn-primary btn-sm me-1 mb-2"
-                          onClick={() => removeItem(item.menuItemId._id)}
-                          disabled={loadingItem === item.menuItemId._id}
-                        >
-                          <i className="fas fa-trash"></i>
-                        </button>
-                      </div>
-                      <div className="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                        <div className="d-flex mb-4" style={{ maxWidth: "300px" }}>
-                          <button
-                            className="btn btn-primary px-3 me-2"
-                            onClick={() => decrement(item.menuItemId._id)}
-                            disabled={loadingItem === item.menuItemId._id || item.quantity <= 1}
-                          >
-                            <i className="fas fa-minus"></i>
-                          </button>
-                          <input
-                            type="number"
-                            readOnly
-                            value={item.quantity}
-                            className="form-control"
-                          />
-                          <button
-                            className="btn btn-primary px-3 ms-2"
-                            onClick={() => increment(item.menuItemId._id)}
-                            disabled={loadingItem === item.menuItemId._id}
-                          >
-                            <i className="fas fa-plus"></i>
-                          </button>
-                        </div>
-                        <p className="text-start text-md-center">
-                          <strong>₹ {item.menuItemId.price * item.quantity}</strong>
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      {/* LEFT - CART ITEMS */}
+      <div className="md:col-span-2 bg-slate-800 rounded-xl p-5 shadow-lg">
+        {cart.items.map((item) => (
+          <div
+            key={item.menuItemId._id}
+            className="flex flex-col md:flex-row gap-4 border-b border-slate-700 pb-4 mb-4"
+          >
+            <img
+              src={item.menuItemId.image || "/default-food.png"}
+              alt={item.menuItemId.name}
+              className="w-full md:w-28 h-28 object-cover rounded-lg"
+            />
+
+            <div className="flex-1">
+              <h4 className="font-semibold text-lg">
+                {item.menuItemId.name}
+              </h4>
+              <p className="text-sm text-slate-400">
+                {item.menuItemId.description || "Delicious item"}
+              </p>
+
+              <div className="flex items-center gap-3 mt-3">
+                <button
+                  onClick={() => decrement(item.menuItemId._id)}
+                  disabled={item.quantity <= 1 || loadingItem === item.menuItemId._id}
+                  className="px-3 py-1 bg-slate-700 rounded disabled:opacity-40"
+                >
+                  −
+                </button>
+
+                <span>{item.quantity}</span>
+
+                <button
+                  onClick={() => increment(item.menuItemId._id)}
+                  disabled={loadingItem === item.menuItemId._id}
+                  className="px-3 py-1 bg-slate-700 rounded disabled:opacity-40"
+                >
+                  +
+                </button>
+
+                <button
+                  onClick={() => removeItem(item.menuItemId._id)}
+                  className="ml-auto text-red-400 hover:text-red-500"
+                >
+                  Remove
+                </button>
               </div>
             </div>
 
-            {/* RIGHT: Summary + Coupons */}
-            <div className="col-md-4">
-              <div className="card mb-4" style={{ backgroundColor: "#1f1f1f", color: "white" }}>
-                <div className="card-header py-3">
-                  <h5 className="mb-0">Summary</h5>
-                </div>
-                <div className="card-body">
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0" style={{ backgroundColor: "#1f1f1f", color: "white" }}>
-                      Products
-                      <span>₹ {totalAmount}</span>
-                    </li>
-                    {discount > 0 && (
-                      <li className="list-group-item d-flex justify-content-between align-items-center px-0" style={{ backgroundColor: "#1f1f1f", color: "white" }}>
-                        Discount ({appliedCoupon})
-                        <span>- ₹ {discount}</span>
-                      </li>
-                    )}
-                    <li className="list-group-item d-flex justify-content-between align-items-center px-0" style={{ backgroundColor: "#1f1f1f", color: "white" }}>
-                      Shipping
-                      <span>Gratis</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3" style={{ backgroundColor: "#1f1f1f", color: "white" }}>
-                      <div><strong>Total amount</strong></div>
-                      <span><strong>₹ {finalAmount}</strong></span>
-                    </li>
-                  </ul>
-
-                  {/* Coupons */}
-                  <h5>Available Coupons</h5>
-                  {availableCoupons.map((c) => {
-                    const eligible = totalAmount >= c.minOrderAmount;
-                    return (
-                      <div
-                        key={c.code}
-                        className="card mb-2"
-                        style={{
-                          background: eligible ? "#2e7d32" : "#3a3a3a",
-                          color: "#fff",
-                          padding: "10px",
-                        }}
-                      >
-                        <h6>{c.code}</h6>
-                        <p>{c.description}</p>
-                        <p>Valid: {new Date(c.validFrom).toLocaleDateString()} - {new Date(c.validTo).toLocaleDateString()}</p>
-                        <p>Discount: {c.discountAmount || c.discountValue}</p>
-                        {eligible ? (
-                          <button
-                            className="btn btn-success btn-sm"
-                            onClick={() => applyCoupon(c)}
-                            disabled={applyingCoupon || appliedCoupon === c.code}
-                          >
-                            {appliedCoupon === c.code ? "Applied" : "Apply"}
-                          </button>
-                        ) : (
-                          <small>Add ₹{c.minOrderAmount - totalAmount} more to unlock</small>
-                        )}
-                      </div>
-                    );
-                  })}
-
-                  <button className="btn btn-primary btn-lg btn-block mt-3">
-                    Go to checkout
-                  </button>
-                </div>
-              </div>
+            <div className="font-semibold text-lg">
+              ₹ {item.menuItemId.price * item.quantity}
             </div>
+          </div>
+        ))}
+      </div>
 
+      {/* RIGHT - SUMMARY */}
+      <div className="bg-slate-800 rounded-xl p-5 shadow-lg">
+        <h3 className="text-xl font-semibold mb-4">Summary</h3>
+
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between">
+            <span>Products</span>
+            <span>₹ {totalAmount}</span>
+          </div>
+
+          {discount > 0 && (
+            <div className="flex justify-between text-green-400">
+              <span>Discount ({appliedCoupon})</span>
+              <span>- ₹ {discount}</span>
+            </div>
+          )}
+
+          <div className="flex justify-between">
+            <span>Shipping</span>
+            <span>Free</span>
+          </div>
+
+          <hr className="border-slate-600 my-2" />
+
+          <div className="flex justify-between font-bold text-lg">
+            <span>Total</span>
+            <span>₹ {finalAmount}</span>
           </div>
         </div>
-      </section>
+
+        {/* COUPONS */}
+       {!appliedCoupon&&(
+        <>
+         <h4 className="mt-6 mb-2 font-semibold">Coupons</h4>
+
+        <div className="space-y-3" >
+          {availableCoupons.map((c) => {
+            const eligible = totalAmount >= c.minOrderAmount;
+            return (
+              <div
+                key={c.code}
+                className={`p-3 mt-4 rounded-lg ${
+                  eligible ? "bg-green-700" : "bg-slate-700"
+                }`}
+              >
+                <div className="font-semibold">{c.code}</div>
+                <p className="text-xs text-slate-200">{c.description}</p>
+
+                {eligible ? (
+                  <button
+                    onClick={() => applyCoupon(c)}
+                    disabled={appliedCoupon === c.code}
+                    className="mt-2 px-3 py-1 text-sm bg-black rounded disabled:opacity-50"
+                  >
+                    {appliedCoupon === c.code ? "Applied" : "Apply"}
+                  </button>
+                ) : (
+                  <p className="text-xs mt-2 text-yellow-400">
+                    Add ₹{c.minOrderAmount - totalAmount} more
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div></>
+       )}
+
+        <Link
+          to="/checkout"
+          className="block text-center mt-10 bg-indigo-600 hover:bg-indigo-700 py-3 rounded-lg font-semibold" style={{color:"white"}}
+        >
+          Go to Checkout →
+        </Link>
+      </div>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default Cartpage;

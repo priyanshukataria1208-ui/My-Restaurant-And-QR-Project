@@ -10,7 +10,7 @@ exports.Createtable = async (req, res) => {
   try {
     const { tableNumber, capacity } = req.body;
 
-    // ✅ Check for duplicate table number
+    // Check duplicate
     const existingTable = await Table.findOne({ tableNumber });
     if (existingTable) {
       return res.status(400).json({
@@ -19,41 +19,43 @@ exports.Createtable = async (req, res) => {
       });
     }
 
-    // ✅ Get IP address
-    const data = os.networkInterfaces()['Wi-Fi'];
-    let ipAddress = null;
-    for (const el of data) {
-      if (el.family === "IPv4") ipAddress = el.address;
+    // ✅ Generate QR slug and URL
+    const qrSlug = crypto.randomBytes(6).toString("hex");
+
+    // Get local IP (adjust interface name if needed)
+    const networkInterfaces = os.networkInterfaces();
+    let ipAddress = "localhost"; // fallback
+    if (networkInterfaces["Wi-Fi"]) {
+      for (const el of networkInterfaces["Wi-Fi"]) {
+        if (el.family === "IPv4") ipAddress = el.address;
+      }
     }
 
-    const qrSlug = crypto.randomBytes(6).toString("hex");
     const qrCodeUrl = `http://${ipAddress}:5173/welcome?qr=${qrSlug}`;
 
-    QRCode.toDataURL(qrCodeUrl, async (err, url) => {
-      if (err) {
-        return res.status(500).json({ message: "QR Code generation failed" });
-      }
+    // ✅ Generate QR code as data URL
+    const qrImage = await QRCode.toDataURL(qrCodeUrl);
 
-      const table = new Table({
-        tableNumber,
-        capacity,
-        qrSlug,
-        qrCodeUrl,
-        qrImage: url,
-      });
+    // ✅ Create table with all fields
+    const table = await Table.create({
+      tableNumber,
+      capacity,
+      qrSlug,
+      qrCodeUrl,
+      qrImage,
+    });
 
-      await table.save();
-
-      res.status(201).json({
-        success: true,
-        data: table,
-      });
+    // ✅ Send single response
+    res.status(201).json({
+      success: true,
+      data: table,
     });
 
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 
 exports.getTableBySlug = async (req, res, next) => {

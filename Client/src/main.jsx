@@ -13,15 +13,19 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 
 import store from './app/store'
 import { Provider } from 'react-redux'
-
-import { Toaster } from 'react-hot-toast'
+import { ToastProvider } from './components/context/ToastProvider.jsx';
+import { Toaster } from 'react-hot-toast';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-      <Toaster position="top-center" />
+   
       	<Theme>
+          <ToastProvider >
+            
+      <Toaster position="top-right" />
       <App />
+      </ToastProvider>
       </Theme>
     </Provider>
   </StrictMode>

@@ -1,50 +1,41 @@
-import React, { useEffect, useState } from 'react'
-import api from '../lib/api'
+import React, { useEffect, useState } from "react";
+import api from "../lib/api";
+import { useNavigate } from "react-router-dom";
 
 const Order = () => {
 
-
+  const navigate = useNavigate();
 
   const statusColor = {
-  pending: "bg-yellow-500",
-  confirmed: "bg-green-600",
-  cancelled: "bg-red-600",
-};
-  const [orders,setOrders]=useState([])
-  const [loading,setLoading]=useState(true)
+    pending: "bg-yellow-500",
+    confirmed: "bg-green-600",
+    cancelled: "bg-red-600",
+  };
 
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    fetchorders();
+  }, []);
 
-  useEffect(()=>{
-    fetchorders()
-  },[])
-
-  const fetchorders=async()=>{
+  const fetchorders = async () => {
     try {
-      const res=await api.get("v1/order");
-
-      setOrders(res.data.orders)
+      const res = await api.get("v1/order");
+      setOrders(res.data.orders);
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
+    } finally {
+      setLoading(false);
     }
-    finally{setLoading(false)}
-  }
+  };
 
-  
-  if (loading) {
-    return <p className="text-slate-400">Loading orders...</p>;
-  }
+  if (loading) return <p className="text-slate-400">Loading orders...</p>;
+  if (!orders.length) return <p className="text-slate-400">No recent orders found</p>;
 
-  if (!orders.length) {
-    return <p className="text-slate-400">No recent orders found</p>;
-  }
-
-
-    return (
+  return (
     <div className="bg-slate-800 p-5 rounded-xl shadow-lg">
-      <h4 className="text-lg font-semibold mb-4 text-white">
-        Recent Orders
-      </h4>
+      <h4 className="text-lg font-semibold mb-4 text-white">Recent Orders</h4>
 
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left text-slate-300">
@@ -63,34 +54,30 @@ const Order = () => {
             {orders.map((o) => (
               <tr
                 key={o._id}
-                className="border-b border-slate-700 hover:bg-slate-700/40"
+                onClick={() => navigate(`/order/${o._id}`)}
+                className="cursor-pointer border-b border-slate-700 hover:bg-slate-700/40"
               >
                 <td className="px-4 py-3">{o._id}</td>
-                <td className="px-4 py-3">
-                  {o.items?.[0]?.name || "Item"}
-                </td>
-                <td className="px-4 py-3">
-                  {o.customerName || "Guest"}
-                </td>
+                <td className="px-4 py-3">{o.items?.[0]?.name || "Item"}</td>
+                <td className="px-4 py-3">{o.customerName || "Guest"}</td>
                 <td className="px-4 py-3">₹ {o.finalAmount}</td>
+
                 <td className="px-4 py-3">
-                  <span
-                    className={`px-2 py-1 rounded text-xs text-white ${
-                      statusColor[o.status?.toLowerCase()] || "bg-green-600"
-                    }`}
-                  >
+                  <span className={`px-2 py-1 rounded text-xs text-white ${
+                    statusColor[o.paymentStatus?.toLowerCase()] || "bg-yellow-500"
+                  }`}>
                     {o.paymentStatus}
                   </span>
                 </td>
-                 <td className="px-4 py-3">
-                  <span
-                    className={`px-2 py-1 rounded text-xs text-white ${
-                      statusColor[o.status?.toLowerCase()] || "bg-yellow-600"
-                    }`}
-                  >
+
+                <td className="px-4 py-3">
+                  <span className={`px-2 py-1 rounded text-xs text-white ${
+                    statusColor[o.orderStatus?.toLowerCase()] || "bg-yellow-500"
+                  }`}>
                     {o.orderStatus}
                   </span>
                 </td>
+
               </tr>
             ))}
           </tbody>
@@ -98,7 +85,6 @@ const Order = () => {
       </div>
     </div>
   );
-  
-}
+};
 
-export default Order
+export default Order;

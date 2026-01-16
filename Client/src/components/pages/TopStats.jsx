@@ -41,8 +41,10 @@ return (
       stats.map((c, i) => (
         <div className="stat-card" key={i}>
           <div className="stat-left">
+            
             <div className="stat-icon" />
             <div>
+              
               <div className="stat-title">{c.title}</div>
               <div className="stat-value">{c.value}</div>
             </div>

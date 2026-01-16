@@ -1,7 +1,6 @@
 import React from "react";
 import Sidebar from "./pages/Slidebar";
 import TopStats from "./pages/TopStats";
-import Charts from "./pages/Charts";
 import Favourites from "./pages/FavouriteItems";
 import RecentOrders from "./pages/Recentorder";
 
@@ -26,7 +25,7 @@ const Admindashboard = () => {
 
         {/* GRAPH + FAVOURITES */}
         <section className="dashboard-grid">
-          <Charts />
+          
           <Favourites />
         </section>
 

@@ -11,4 +11,8 @@ router.post("/coupan", CoupanC.registerCoupan);
 // Apply a coupon to the cart
 router.post("/coupan/apply", verifyToken, CoupanC.applyCoupon);
 
+
+router.get("/admin/coupons", verifyToken, CoupanC.getAllCoupansAdmin);
+router.patch("/admin/coupons/:id/toggle", verifyToken, CoupanC.toggleCouponStatus);
+
 module.exports = router;

@@ -203,3 +203,41 @@ exports.applyCoupon = async (req, res) => {
 };
 
 
+
+// Get all coupons for admin
+exports.getAllCoupansAdmin = async (req, res) => {
+  try {
+    const coupons = await Coupan.find().sort({ createdAt: -1 }); // newest first
+    res.json({
+      success: true,
+      totalCoupons: coupons.length,
+      coupons,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+// Toggle Active / Inactive
+exports.toggleCouponStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const coupon = await Coupan.findById(id);
+    if (!coupon) return res.status(404).json({ success: false, message: "Coupon not found" });
+
+    coupon.isActive = !coupon.isActive;
+    await coupon.save();
+
+    res.json({
+      success: true,
+      message: `Coupon ${coupon.code} is now ${coupon.isActive ? "Active" : "Inactive"}`,
+      coupon,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+

@@ -1,9 +1,12 @@
+import { Link } from "react-router-dom";
+
+
 const Favourites = () => {
   return (
     <div className="card">
       <div className="fav-header">
         <h4>Most Favourite Items</h4>
-        <button>See All</button>
+        <button><Link to="/adminfoodproduct" >See All</Link></button>
       </div>
 
       <div className="fav-grid">

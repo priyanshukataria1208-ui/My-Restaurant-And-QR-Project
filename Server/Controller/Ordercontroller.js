@@ -271,3 +271,25 @@ exports.getorder = async (req, res, next) => {
     }
 }
 
+exports.monthlysales=async(req,res,next)=>{
+ try {
+       const sales=await Order.aggregate([
+        {
+            $group:{
+                _id:{$month:"$createdAt"},
+                totalSales:{$sum:"$finalAmount"},
+                orders:{$sum:1},
+
+            }
+        },
+        {$sort:{"_id":1}}
+    ])
+    res.json({
+        success:true,sales
+    })
+ } catch (error) {
+   console.error("Monthly sales error:", error);
+    res.status(500).json({ message: error.message });
+ }
+}
+

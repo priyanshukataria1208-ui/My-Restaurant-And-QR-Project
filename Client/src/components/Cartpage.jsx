@@ -30,6 +30,7 @@ const Cartpage = () => {
         setAppliedCoupon(res.data.cart.appliedCoupon || null);
         setDiscount(res.data.cart.discount || 0);
       }
+
     } catch (err) {
       console.log(err.response?.data || err.message);
     }
@@ -41,6 +42,8 @@ const Cartpage = () => {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       if (res.data?.CoupansAfterCalculation) setAvailableCoupons(res.data.CoupansAfterCalculation);
+      const activecoupans=res.data.CoupansAfterCalculation(c=>c.isActive)
+      setAvailableCoupons(activecoupans)
     } catch (err) {
       console.log(err.response?.data || err.message);
       setAvailableCoupons([]);

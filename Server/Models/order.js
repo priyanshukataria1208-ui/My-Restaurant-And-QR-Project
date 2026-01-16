@@ -109,7 +109,12 @@ const orderSchema = new mongoose.Schema(
     razorPayOrderId: {type:String},
     razorPayPaymentId: {type:String},
     razorPaySignature: {type:String},
+    createdAt:{
+      type:Date,
+      default:Date.now,
+    }
   },
+
   {
     timestamps: true, // ✅ createdAt & updatedAt
   }

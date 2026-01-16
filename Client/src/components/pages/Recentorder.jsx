@@ -58,7 +58,7 @@ const Recentorders = () => {
           </thead>
 
           <tbody>
-            {orders.map((o) => (
+            {orders.slice(0,5).map((o) => (
               <tr
                 key={o._id}
                 className="border-b border-slate-700 hover:bg-slate-700/40"
